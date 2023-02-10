@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string("name");
             $table->string("description");
             $table->date("timeline");
-            $table->integer("budget");
-            $table->integer("recource_allocation");
+            $table->integer("budget")->nullable();
+            $table->integer("resource_allocation")->nullable();
 
             $table->foreignId("user_id")->constrained();
             $table->timestamps();

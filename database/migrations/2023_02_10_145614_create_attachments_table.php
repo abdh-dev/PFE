@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string("size");
             $table->string("type");
 
-            $table->foreignId("chat_id")->constrained();
+            $table->foreignId("chat_id")->nullable()->constrained();
             $table->timestamps();
         });
     }

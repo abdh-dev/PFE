@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('task_histories', function (Blueprint $table) {
             $table->id();
             $table->string("field_name");
-            $table->string("old_value");
+            $table->string("old_value")->nullable();
             $table->string("new_value");
 
             $table->foreignId("task_id")->constrained();

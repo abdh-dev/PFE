@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string("description")->default("");
             $table->smallInteger("status")->default(0);
             $table->smallInteger("priority")->default(0);
-            $table->decimal("estimated_time", 5, 2)->default(0);
+            $table->decimal("estimated_time")->default(0);
             $table->integer("bonus")->default(0);
             $table->integer("penalty")->default(0);
             $table->date("start_date");
             $table->date("due_date");
-            $table->date("completion_date");
+            $table->date("completion_date")->nullable();
             $table->json("custom_fields")->default("[]");
 
             $table->foreignId("created_by")->constrained("users");

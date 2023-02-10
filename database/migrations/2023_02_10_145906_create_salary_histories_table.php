@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("salary");
             $table->timestamp("received_at");
 
-            $table->foreignId("employed_by")->constrained("employees");
+            $table->foreignId("employee_id")->constrained();
             $table->timestamps();
         });
     }
