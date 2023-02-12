@@ -17,6 +17,14 @@ $ npm run dev
 $ php artisan serve
 ```
 
+## IDE Helper
+
+```bash
+$ php artisan ide-helper:generate
+$ php artisan ide-helper:meta
+$ php artisan ide-helper:models -N
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
