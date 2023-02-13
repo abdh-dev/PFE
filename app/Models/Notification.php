@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +30,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Notification whereReadAt($value)
  * @method static Builder|Notification whereUpdatedAt($value)
  * @method static Builder|Notification whereUserId($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
+
 class Notification extends Model
 {
     use HasFactory;

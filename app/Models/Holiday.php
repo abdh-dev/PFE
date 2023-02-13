@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,8 +28,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Holiday wherePattern($value)
  * @method static Builder|Holiday whereStartAt($value)
  * @method static Builder|Holiday whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
+
 class Holiday extends Model
 {
     use HasFactory;

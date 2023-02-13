@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +24,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|EmployeeHoliday whereHolidayId($value)
  * @method static Builder|EmployeeHoliday whereId($value)
  * @method static Builder|EmployeeHoliday whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
+
 class EmployeeHoliday extends Model
 {
     use HasFactory;

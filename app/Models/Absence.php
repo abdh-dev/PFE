@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,8 +28,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Absence whereId($value)
  * @method static Builder|Absence whereLength($value)
  * @method static Builder|Absence whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
+
 class Absence extends Model
 {
     use HasFactory;

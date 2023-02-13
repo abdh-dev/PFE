@@ -26,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Tag whereUpdatedAt($value)
  * @mixin Eloquent
  */
+
 class Tag extends Model
 {
     use HasFactory;

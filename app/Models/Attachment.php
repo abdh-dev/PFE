@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +30,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Attachment whereSrc($value)
  * @method static Builder|Attachment whereType($value)
  * @method static Builder|Attachment whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
+
 class Attachment extends Model
 {
     use HasFactory;

@@ -17,10 +17,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /**
- * Class User
+ * App\Models\User
  *
- * @package App\Models
- * @mixin Builder
  * @property int $id
  * @property string $username
  * @property string $password

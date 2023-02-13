@@ -26,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|TaskAttachment whereUpdatedAt($value)
  * @mixin Eloquent
  */
+
 class TaskAttachment extends Model
 {
     use HasFactory;

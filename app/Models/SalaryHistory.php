@@ -28,6 +28,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|SalaryHistory whereUpdatedAt($value)
  * @mixin Eloquent
  */
+
 class SalaryHistory extends Model
 {
     use HasFactory;

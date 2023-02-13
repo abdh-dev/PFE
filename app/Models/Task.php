@@ -8,12 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
-
 /**
- * Class Task
+ * App\Models\Task
  *
- * @package App\Models
- * @mixin Builder
  * @property int $id
  * @property string $title
  * @property string $description

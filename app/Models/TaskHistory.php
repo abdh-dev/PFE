@@ -30,6 +30,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|TaskHistory whereUpdatedAt($value)
  * @mixin Eloquent
  */
+
 class TaskHistory extends Model
 {
     use HasFactory;

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,8 +28,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Phase whereName($value)
  * @method static Builder|Phase whereProjectId($value)
  * @method static Builder|Phase whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
+
 class Phase extends Model
 {
     use HasFactory;

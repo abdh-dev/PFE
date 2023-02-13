@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +24,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Note whereTaskId($value)
  * @method static Builder|Note whereText($value)
  * @method static Builder|Note whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
+
 class Note extends Model
 {
     use HasFactory;
