@@ -39,7 +39,6 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $phase_count
  * @property-read User $user
  * @method static Builder|Project whereResourceAllocation($value)
- * @property-read Collection<int, Phase> $phase
  * @mixin Eloquent
  */
 

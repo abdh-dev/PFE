@@ -52,13 +52,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder|User whereRole($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereUsername($value)
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read Collection<int, Project> $projects
  * @property-read int|null $projects_count
- * @property-read Collection<int, PersonalAccessToken> $tokens
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read Collection<int, Project> $projects
- * @property-read Collection<int, PersonalAccessToken> $tokens
  * @mixin Eloquent
  */
 
