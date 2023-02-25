@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -32,10 +35,29 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Project whereTimeline($value)
  * @method static Builder|Project whereUpdatedAt($value)
  * @method static Builder|Project whereUserId($value)
+ * @property-read Collection<int, Phase> $phase
+ * @property-read int|null $phase_count
+ * @property-read User $user
+ * @method static Builder|Project whereResourceAllocation($value)
+ * @property-read Collection<int, Phase> $phase
  * @mixin Eloquent
  */
 
 class Project extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        "name",
+        "description",
+        "timeline",
+        "budget",
+        "resource_allocation"
+    ];
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+    public function phase(): HasMany {
+        return $this->hasMany(Phase::class);
+    }
 }
