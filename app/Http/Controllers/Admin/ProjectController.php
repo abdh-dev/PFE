@@ -17,12 +17,10 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(ProjectRequest $request): Response {
+    public function store(ProjectRequest $request): RedirectResponse {
         $request->user()->projects()->create($request->validated());
 
-        return Inertia::render("Project/Add", [
-            "projects" => Project::all(),
-        ]);
+        return back();
     }
 
     public function show($id): Response {
