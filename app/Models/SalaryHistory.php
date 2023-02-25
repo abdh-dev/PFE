@@ -26,6 +26,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|SalaryHistory whereReceivedAt($value)
  * @method static Builder|SalaryHistory whereSalary($value)
  * @method static Builder|SalaryHistory whereUpdatedAt($value)
+ * @property int $employee_id
+ * @method static Builder|SalaryHistory whereEmployeeId($value)
  * @mixin Eloquent
  */
 
