@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import ProjectPopup from '@/Pages/Project/ProjectPopup.vue';
 import AppHead from '@/Components/AppHead.vue';
+import TableLayout from '@/Layouts/TableLayout/TableLayout.vue';
 
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
@@ -54,10 +55,21 @@ const closeProjectPopup = () => {
     console.log('closeProjectPopup')
 };
 
+const deleteProject = (project: Project) => {
+    // form.delete(route('projects.destroy', project.id), {
+    //     preserveScroll: true,
+    //     onSuccess: () => closeModal(),
+    //     onFinish: () => form.reset(),
+    // });
+};
+
+console.log(props.projects)
+
 </script>
 
 <template>
     <AppHead title="Temp Index" />
+    <h1 class="text-2xl font-bold text-gray-900">Add projects</h1>
     <PrimaryButton @click="showModal">Add project</PrimaryButton>
 
     <Modal :show="showModelEl" @close="closeModal">
@@ -154,13 +166,8 @@ const closeProjectPopup = () => {
         </div>
     </Modal>
 
-    <div class="mt-4">
-        <ul>
-            <li v-for="project in props.projects" :key="project.id">
-                <a @click.prevent="openProjectPopup(project)">{{ project.name }}</a>
-            </li>
-        </ul>
-    </div>
+    <h1 class="text-2xl font-bold text-gray-900">View projects</h1>
+    <TableLayout :obj="projects" :action="['View']" @view="openProjectPopup" />
 
     <ProjectPopup :project="selectedProject" @close="closeProjectPopup"/>
 </template>
