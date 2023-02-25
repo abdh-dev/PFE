@@ -24,14 +24,6 @@ const props = defineProps<{
     projects: Project[]
 }>()
 
-const submit = () => {
-    form.post(route('projects.index'), {
-        preserveScroll: true,
-        onSuccess: () => closeModal(),
-        onFinish: () => form.reset(),
-    });
-};
-
 const showModelEl = ref(false);
 const showProjectPopup = ref(false);
 const selectedProject = ref<Project | null>(null);
@@ -55,12 +47,20 @@ const closeProjectPopup = () => {
     console.log('closeProjectPopup')
 };
 
+const submit = () => {
+    form.post(route('projects.index'), {
+        preserveScroll: true,
+        onSuccess: () => closeModal(),
+        onFinish: () => form.reset(),
+    });
+};
+
 const deleteProject = (project: Project) => {
-    // form.delete(route('projects.destroy', project.id), {
-    //     preserveScroll: true,
-    //     onSuccess: () => closeModal(),
-    //     onFinish: () => form.reset(),
-    // });
+    form.delete(route('projects.destroy', project.id), {
+        preserveScroll: true,
+        onSuccess: () => closeModal(),
+        onFinish: () => form.reset(),
+    });
 };
 
 console.log(props.projects)
@@ -167,7 +167,7 @@ console.log(props.projects)
     </Modal>
 
     <h1 class="text-2xl font-bold text-gray-900">View projects</h1>
-    <TableLayout :obj="projects" :action="['View']" @view="openProjectPopup" />
+    <TableLayout :obj="projects" :action="['View', 'Delete']" @view="openProjectPopup" @delete="deleteProject" />
 
     <ProjectPopup :project="selectedProject" @close="closeProjectPopup"/>
 </template>

@@ -51,7 +51,7 @@ const filteredKeys = computed(() => {
                 </template>
                 <TData v-if="action !== null">
                     <template v-for="(actionItem, index) in action" :key="index">
-                        <a class="text-blue-500 hover:text-blue-600 mr-1" @click="$emit(actionItem.toLowerCase(), item)">
+                        <a class="text-blue-500 hover:text-blue-600 mr-1" @click.prevent="$emit(actionItem.toLowerCase(), item)">
                             {{ actionItem }}
                         </a>
                     </template>
