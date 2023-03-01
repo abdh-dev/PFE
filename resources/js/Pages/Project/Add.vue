@@ -9,7 +9,7 @@ import ProjectPopup from '@/Pages/Project/ProjectPopup.vue';
 import AppHead from '@/Components/AppHead.vue';
 import TableLayout from '@/Layouts/TableLayout/TableLayout.vue';
 
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm<Project>({
@@ -48,7 +48,7 @@ const closeProjectPopup = () => {
 };
 
 const submit = () => {
-    form.post(route('projects.index'), {
+    form.post(route('projects.store'), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
         onFinish: () => form.reset(),
@@ -63,7 +63,20 @@ const deleteProject = (project: Project) => {
     });
 };
 
-console.log(props.projects)
+onMounted(() => {
+    const projectChannel = Echo.channel('public.projects');
+
+    projectChannel
+        .listen('ProjectCreated', (e: any) => {
+            // console.log('ProjectCreated', e);
+            props.projects.push(e.project);
+        })
+        .listen('ProjectDeleted', (e: any) => {
+            console.log('ProjectDeleted', e);
+        });
+
+    console.log('onMounted')
+    });
 
 </script>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\Project\ProjectCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
@@ -13,12 +14,16 @@ class ProjectController extends Controller
 {
     public function index(): Response {
         return Inertia::render("Project/Add", [
-            "projects" => Project::all()
+            "projects" => Project::latest()->take(5)->get()
+//            "projects" => Project::all()
         ]);
     }
 
     public function store(ProjectRequest $request): RedirectResponse {
-        $request->user()->projects()->create($request->validated());
+        $project = $request->user()->projects()->create($request->validated());
+
+//        ProjectCreated::dispatch($project);D
+        broadcast(new ProjectCreated($project))->toOthers();
 
         return back();
     }
