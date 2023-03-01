@@ -1,9 +1,14 @@
 // @ts-ignore
 
 import ziggyRoute from "@types/ziggy-js";
+import Echo from "laravel-echo";
 
 declare global {
   const route: typeof ziggyRoute;
+  interface Window {
+      Echo: Echo;
+  }
+  const Echo: Echo
 }
 
 declare module "@vue/runtime-core" {
@@ -17,3 +22,4 @@ declare module "vue/types/vue" {
     $route: typeof ziggyRoute;
   }
 }
+
