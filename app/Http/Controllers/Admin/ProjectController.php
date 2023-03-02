@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\Project\ProjectCreated;
+use App\Events\Project\ProjectDeleted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
@@ -35,7 +36,10 @@ class ProjectController extends Controller
     }
 
     public function destroy($id): RedirectResponse {
-        Project::findOrFail($id)->delete();
+        $project = Project::findOrFail($id);
+
+        broadcast(new ProjectDeleted($project))->toOthers();
+        $project->delete();
 
         return back();
     }

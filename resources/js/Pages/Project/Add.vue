@@ -67,16 +67,20 @@ onMounted(() => {
     const projectChannel = Echo.channel('public.projects');
 
     projectChannel
-        .listen('ProjectCreated', (e: any) => {
-            // console.log('ProjectCreated', e);
+        .listen('.project.created', (e: any) => {
+            console.log('ProjectCreated', e);
             props.projects.push(e.project);
         })
-        .listen('ProjectDeleted', (e: any) => {
+        .listen('.project.deleted', (e: any) => {
             console.log('ProjectDeleted', e);
+            const deleteIndex = props.projects.findIndex(project => project.id == e.project.id)
+            if (deleteIndex !== -1) {
+                props.projects.splice(deleteIndex, 1);
+            }
         });
 
     console.log('onMounted')
-    });
+});
 
 </script>
 
