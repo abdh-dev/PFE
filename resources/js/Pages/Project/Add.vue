@@ -71,6 +71,13 @@ onMounted(() => {
             console.log('ProjectCreated', e);
             props.projects.push(e.project);
         })
+        .listen('.project.updated', (e: any) => {
+            console.log('ProjectUpdated', e);
+            const updateIndex = props.projects.findIndex(project => project.id == e.project.id)
+            if (updateIndex !== -1) {
+                props.projects[updateIndex] = e.project;
+            }
+        })
         .listen('.project.deleted', (e: any) => {
             console.log('ProjectDeleted', e);
             const deleteIndex = props.projects.findIndex(project => project.id == e.project.id)
