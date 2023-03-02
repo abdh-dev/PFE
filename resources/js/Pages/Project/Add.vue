@@ -184,7 +184,7 @@ onMounted(() => {
     </Modal>
 
     <h1 class="text-2xl font-bold text-gray-900">View projects</h1>
-    <TableLayout :obj="projects" :action="['View', 'Delete']" @view="openProjectPopup" @delete="deleteProject" />
+    <TableLayout :obj="projects" :action="['Edit', 'Delete']" @edit="openProjectPopup" @delete="deleteProject" />
 
     <ProjectPopup :project="selectedProject" @close="closeProjectPopup"/>
 </template>

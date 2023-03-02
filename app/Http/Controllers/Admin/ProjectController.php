@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\Project\ProjectCreated;
 use App\Events\Project\ProjectDeleted;
+use App\Events\Project\ProjectUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
@@ -25,6 +26,15 @@ class ProjectController extends Controller
 
 //        ProjectCreated::dispatch($project);D
         broadcast(new ProjectCreated($project))->toOthers();
+
+        return back();
+    }
+
+    public function update(ProjectRequest $request, Project $project): RedirectResponse {
+//        dd($project);
+        $project->update($request->validated());
+
+        broadcast(new ProjectUpdated($project));
 
         return back();
     }
