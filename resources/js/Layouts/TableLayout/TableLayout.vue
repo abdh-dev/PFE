@@ -19,10 +19,12 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
     (event: 'view', ...args: any[]): void
+    (event: 'edit', ...args: any[]): void
     (event: 'delete', ...args: any[]): void
 }>()
 
 const filteredKeys = computed(() => {
+    if (props.obj.length === 0) return []
     return Object.keys(props.obj[0]).map(key => {
         return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
     })
