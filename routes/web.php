@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/projects', ProjectController::class)
-    ->only(['index', 'store', 'show', 'destroy']);
+    ->only(['index', 'store', 'update', 'destroy']);
 //    ->middleware('auth');
 
 Route::get("/t", function () {
