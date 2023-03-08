@@ -6,6 +6,7 @@
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
+        "@mdi/font": "^7.1.96",
         "@tailwindcss/forms": "^0.5.3",
         "@types/lodash": "^4.14.191",
         "@types/node": "^18.13.0",
@@ -26,6 +27,7 @@
     },
     "dependencies": {
         "laravel-echo": "^1.15.0",
+        "material-design-icons-iconfont": "^6.7.0",
         "pusher-js": "^8.0.1"
     }
 }
