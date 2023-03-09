@@ -2,6 +2,7 @@ type Project = {
     id?: number;
     name: string;
     description: string;
+    color: string;
     timeline: string /* Date */;
     budget: number;
     resource_allocation: number;
