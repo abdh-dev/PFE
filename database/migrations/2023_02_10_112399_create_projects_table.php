@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("description");
+            $table->string("color")->nullable();
             $table->date("timeline");
             $table->integer("budget")->nullable();
             $table->integer("resource_allocation")->nullable();
