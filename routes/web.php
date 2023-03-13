@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PhaseController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -26,13 +28,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/test', function () {
-    return Inertia::render('Index');
-});
+Route::get('/dashboard', [DashboardController::class, "index"])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -40,12 +36,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('/projects', ProjectController::class)
-    ->only(['index', 'store', 'update', 'destroy']);
-//    ->middleware('auth');
+Route::resource('projects', ProjectController::class)
+    ->except(['index', 'show'])
+    ->middleware('auth');
 
-Route::get("/t", function () {
-    return view("test");
-});
+Route::resource("projects.phases", PhaseController::class)
+    ->only(["store", "update", "destroy"])
+    ->middleware("auth");
+
+//Route::get("/projects", function () {
+//    return redirect()->route("dashboard");
+//});
+//
+//Route::get("/projects/{any}", function () {
+//    return redirect()->route("dashboard");
+//})->where("any", ".*");
 
 require __DIR__.'/auth.php';
