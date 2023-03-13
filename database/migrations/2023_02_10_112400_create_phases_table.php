@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("description");
             $table->string("color");
 
-            $table->foreignId("project_id")->constrained();
+            $table->foreignId("project_id")->nullable()->constrained();
             $table->timestamps();
         });
     }
