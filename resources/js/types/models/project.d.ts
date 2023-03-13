@@ -6,6 +6,7 @@ type Project = {
     timeline: string /* Date */;
     budget: number;
     resource_allocation: number;
+    phases?: Phase[];
     user_id?: number;
     created_at?: string /* Date */ | null;
     updated_at?: string /* Date */ | null;
