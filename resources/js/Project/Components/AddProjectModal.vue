@@ -33,8 +33,8 @@ const form = useForm<Project>({
 const submit = () => {
     form.post(route('projects.store'), {
         preserveScroll: true,
-        onSuccess: () => closeModal(),
-        onFinish: () => form.reset(),
+        onSuccess: () => form.reset(),
+        onFinish: () => closeModal(),
     });
 };
 
@@ -129,7 +129,7 @@ const submit = () => {
                         <color-input class="d-flex justify-center"
                                      v-model="form.color"
                                      position="top"
-                                     model-value="rgb(0, 0, 0)"
+                                     model-value="rgb(124,130,141)"
                         />
 
                         <InputError :message="form.errors.color" class="mt-2" />
