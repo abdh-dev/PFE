@@ -49,6 +49,7 @@ class Project extends Model
         "description",
         "timeline",
         "budget",
+        "color",
         "resource_allocation"
     ];
 

@@ -9,8 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class ProjectController extends Controller
 {
@@ -23,7 +21,7 @@ class ProjectController extends Controller
 
     public function update(ProjectRequest $request, Project $project): RedirectResponse {
         $project->update($request->validated());
-        broadcast(new ProjectUpdated($project));
+        broadcast(new ProjectUpdated($project))->toOthers();
 
         return back();
     }
