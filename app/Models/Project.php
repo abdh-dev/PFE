@@ -56,7 +56,7 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function phase(): HasMany {
+    public function phases(): HasMany {
         return $this->hasMany(Phase::class);
     }
 }
