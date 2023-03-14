@@ -28,7 +28,9 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', [DashboardController::class, "index"])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, "index"])
+    ->name('dashboard')
+    ->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -43,6 +45,12 @@ Route::resource('projects', ProjectController::class)
 Route::resource("projects.phases", PhaseController::class)
     ->only(["store", "update", "destroy"])
     ->middleware("auth");
+
+Route::get("/fresh", function () {
+    Artisan::call("migrate:fresh");
+    return redirect()->route("dashboard");
+});
+
 
 //Route::get("/projects", function () {
 //    return redirect()->route("dashboard");
