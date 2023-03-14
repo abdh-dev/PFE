@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import AppHead from '@/Components/AppHead.vue';
+import Sidebar from '@/Sidebar/Sidebar.vue';
+
+defineProps<{
+    sidebarProjects: Project[]
+}>();
+
 </script>
 
 <template>
@@ -11,10 +17,10 @@ import AppHead from '@/Components/AppHead.vue';
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-8">
+            <div class="max-w-9xl mx-auto sm:px-2 lg:px-2">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
+                    <Sidebar :projects="sidebarProjects"/>
                 </div>
             </div>
         </div>
