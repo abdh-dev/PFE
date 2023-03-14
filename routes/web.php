@@ -47,7 +47,7 @@ Route::resource("projects.phases", PhaseController::class)
     ->middleware("auth");
 
 Route::get("/fresh", function () {
-    Artisan::call("migrate:fresh");
+    Artisan::call("migrate:fresh --seed");
     return redirect()->route("dashboard");
 });
 

@@ -11,8 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up(): void {
         Schema::create('salary_histories', function (Blueprint $table) {
             $table->id();
             $table->string("salary");
@@ -28,8 +27,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down(): void {
         Schema::dropIfExists('salary_histories');
     }
 };
