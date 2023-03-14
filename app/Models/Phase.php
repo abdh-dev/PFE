@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\PhaseFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +31,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Phase whereName($value)
  * @method static Builder|Phase whereProjectId($value)
  * @method static Builder|Phase whereUpdatedAt($value)
+ * @property-read Project|null $project
+ * @method static PhaseFactory factory($count = null, $state = [])
  * @mixin Eloquent
  */
 

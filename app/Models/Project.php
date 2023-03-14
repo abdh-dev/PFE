@@ -39,11 +39,18 @@ use Illuminate\Support\Carbon;
  * @property-read int|null $phase_count
  * @property-read User $user
  * @method static Builder|Project whereResourceAllocation($value)
+ * @property string|null $color
+ * @property-read Collection<int, Phase> $phases
+ * @property-read int|null $phases_count
+ * @method static Builder|Project whereColor($value)
+ * @method static \Database\Factories\ProjectFactory factory($count = null, $state = [])
  * @mixin Eloquent
  */
 
 class Project extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         "name",
         "description",
