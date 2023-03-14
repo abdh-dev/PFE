@@ -14,26 +14,16 @@ use Inertia\Response;
 
 class ProjectController extends Controller
 {
-    public function index(): Response {
-        return Inertia::render("Project/Add", [
-            "projects" => Project::latest()->take(5)->get()
-//            "projects" => Project::all()
-        ]);
-    }
-
     public function store(ProjectRequest $request): RedirectResponse {
         $project = $request->user()->projects()->create($request->validated());
 
-//        ProjectCreated::dispatch($project);D
         broadcast(new ProjectCreated($project))->toOthers();
 
         return back();
     }
 
     public function update(ProjectRequest $request, Project $project): RedirectResponse {
-//        dd($project);
         $project->update($request->validated());
-
         broadcast(new ProjectUpdated($project));
 
         return back();
@@ -47,7 +37,6 @@ class ProjectController extends Controller
 
     public function destroy($id): RedirectResponse {
         $project = Project::findOrFail($id);
-
         broadcast(new ProjectDeleted($project))->toOthers();
         $project->delete();
 
