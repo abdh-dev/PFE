@@ -80,7 +80,6 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-
     protected $attributes = [
         'preference' => '{"theme":"light"}',
     ];

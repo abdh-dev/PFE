@@ -24,14 +24,12 @@ class ProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|max:255",
-//            "name" => "required|string|max:255|unique:projects,name",
-            "description" => "required|string|max:255",
-//            "timeline" => "required|date|after:today",
-            "timeline" => "required|date",
-            "budget" => "required|integer",
-            "resource_allocation" => "required|integer",
-            "color" => "nullable|string|max:255",
+            "name" => ["required", "string", "max:255", "unique:projects,name"],
+            "description" => ["required", "string|max:255"],
+            "timeline" => ["required", "date", "after:today"],
+            "budget" => ["required", "integer"],
+            "resource_allocation" => ["required", "integer"],
+            "color" => ["nullable", "string", "max:255"],
         ];
     }
 }
