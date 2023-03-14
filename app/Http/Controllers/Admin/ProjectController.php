@@ -16,7 +16,6 @@ class ProjectController extends Controller
 {
     public function store(ProjectRequest $request): RedirectResponse {
         $project = $request->user()->projects()->create($request->validated());
-
         broadcast(new ProjectCreated($project))->toOthers();
 
         return back();
@@ -27,12 +26,6 @@ class ProjectController extends Controller
         broadcast(new ProjectUpdated($project));
 
         return back();
-    }
-
-    public function show($id): Response {
-        return Inertia::render("Project/Show", [
-            "project" => Project::with('tasks')->findOrFail($id)
-        ]);
     }
 
     public function destroy($id): RedirectResponse {
