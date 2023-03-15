@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\Phase\PhaseCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PhaseRequest;
 use App\Models\Phase;
@@ -14,8 +15,7 @@ use Inertia\Response;
 class PhaseController extends Controller
 {
     public function store(PhaseRequest $request, Project $project): RedirectResponse {
-        $phase = Phase::create($request->validated());
-        $project->phases()->save($phase);
+        $project->phases()->create($request->validated());
 
         return back();
     }

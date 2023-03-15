@@ -39,18 +39,20 @@ onMounted(() => {
     const projectChannel = Echo.channel('public.projects');
 
     projectChannel
-        .listen('.project.created', (e: any) => {
+        .listen('.ProjectCreated', (e: any) => {
             console.log('ProjectCreated', e);
-            props.projects.push(e.project);
+            props.projects.push(e.model);
         })
-        .listen('.project.updated', (e: any) => {
+        .listen('.ProjectUpdated', (e: any) => {
             console.log('ProjectUpdated', e);
-            const updateIndex = props.projects.findIndex(project => project.id == e.project.id)
-            if (updateIndex !== -1) props.projects[updateIndex] = e.project;
+            const project: Project = e.model;
+            const updateIndex = props.projects.findIndex(project => project.id == project.id)
+            if (updateIndex !== -1) props.projects[updateIndex] = project;
         })
-        .listen('.project.deleted', (e: any) => {
+        .listen('.ProjectDeleted', (e: any) => {
             console.log('ProjectDeleted', e);
-            const deleteIndex = props.projects.findIndex(project => project.id == e.project.id)
+            const project_: Project = e.model;
+            const deleteIndex = props.projects.findIndex(project => project.id == project_.id)
             if (deleteIndex !== -1) props.projects.splice(deleteIndex, 1);
         });
 });

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Database\Factories\PhaseFactory;
 use Eloquent;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,7 +40,7 @@ use Illuminate\Support\Carbon;
 
 class Phase extends Model
 {
-    use HasFactory;
+    use HasFactory, BroadcastsEvents;
 
     protected $fillable = [
         "name",
@@ -48,5 +50,9 @@ class Phase extends Model
 
     public function project(): BelongsTo {
         return $this->belongsTo(Project::class);
+    }
+
+    public function broadcastOn($event): PrivateChannel {
+        return new PrivateChannel("private.projects.{$this->project_id}.phases");
     }
 }

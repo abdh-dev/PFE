@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Eloquent;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,7 +52,7 @@ use Illuminate\Support\Carbon;
 
 class Project extends Model
 {
-    use HasFactory;
+    use HasFactory, BroadcastsEvents;
 
     protected $fillable = [
         "name",
@@ -66,5 +69,9 @@ class Project extends Model
 
     public function phases(): HasMany {
         return $this->hasMany(Phase::class);
+    }
+
+    public function broadcastOn($event): Channel {
+        return new Channel("public.projects");
     }
 }
