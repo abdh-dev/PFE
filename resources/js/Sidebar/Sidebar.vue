@@ -5,7 +5,7 @@ import AddPhaseModal from '@/Sidebar/Components/Phase/AddPhaseModal.vue';
 import AddProjectModal from "@/Project/Components/AddProjectModal.vue";
 import PrItem from '@/Sidebar/Components/Project/PrItem.vue';
 import PrName from '@/Sidebar/Components/Project/PrName.vue';
-import PrPhase from '@/Sidebar/Components/Project/PrPhase.vue';
+import PrPhases from '@/Sidebar/Components/Phase/PrPhases.vue';
 import ThreeVDots from '@/Components/Icons/ThreeVDots.vue';
 import Plus from '@/Components/Icons/Plus.vue';
 
@@ -65,7 +65,12 @@ onMounted(() => {
             <div class="sidebar-project-list">
                 <AddProjectButton @click.prevent="projectModal = !projectModal" />
                 <PrItemEverything />
-                <PrItem v-if="projects.length" v-for="project in projects" :key="project.id" :project="project">
+                <PrItem
+                    v-if="projects.length"
+                    v-for="project in projects"
+                    :key="project.id"
+                    :project="project"
+                >
                     <PrName :project="project" />
                     <template #icons>
                         <Link href="">
@@ -74,16 +79,7 @@ onMounted(() => {
                         <Plus @click="showPhaseModal(project)" />
                     </template>
                     <template #phases>
-                        <PrPhase
-                            v-if="project.phases.length"
-                            v-for="(phase, index) in project.phases"
-                            :key="phase.id"
-                            :phase="phase"
-                            :number="index + 1"
-                        />
-                        <div v-else>
-                            <p>No phases yet</p>
-                        </div>
+                        <PrPhases :phases="project.phases" />
                     </template>
                 </PrItem>
                 <div v-else>
