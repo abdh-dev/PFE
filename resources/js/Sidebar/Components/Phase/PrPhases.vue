@@ -8,19 +8,14 @@ const props = defineProps<{
     project: Project
 }>()
 
-let subscribed = false;
-
 const phaseChannel = Echo.private(`private.projects.${props.project.id}.phases`);
 onMounted(() => {
-    if (!subscribed) {
-        phaseChannel
-            .listen(".PhaseCreated", (e: any) => {
-                console.log("PhaseCreated", e);
-                if (!props.project.phases) props.project.phases = [];
-                props.project.phases.push(e.model);
-            })
-        subscribed = true;
-    }
+    phaseChannel
+        .listen(".PhaseCreated", (e: any) => {
+            console.log("PhaseCreated", e);
+            if (!props.project.phases) props.project.phases = [];
+            props.project.phases.push(e.model);
+        })
 })
 
 onBeforeUnmount(() => {
