@@ -14,7 +14,6 @@ class ProjectCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-
     /**
      * Create a new event instance.
      *

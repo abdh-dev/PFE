@@ -1,29 +1,16 @@
 <script setup lang="ts">
-
-import { ref, onMounted, watch } from 'vue';
+import { ref, computed } from 'vue';
 
 const openProject = ref(false);
 const props = defineProps<{
     project: Project
 }>()
 
-const phases = ref<HTMLDivElement | null>(null)
-const scrollHeight = ref(0);
+const height = computed(() => {
+    let length = props.project.phases?.length ?? 0;
+    if (!length) length = 1;
 
-onMounted(() => {
-    watch(openProject, (val) => {
-        if (val) {
-            scrollHeight.value = phases.value!.scrollHeight;
-        } else {
-            scrollHeight.value = 0;
-        }
-    });
-
-    watch(() => props.project.phases, (phases) => {
-        if (openProject.value) {
-            scrollHeight.value = phases!.length * 32; // Change this value to match your desired height per phase
-        }
-    });
+    return openProject.value ? length * 32 : 0;
 })
 
 </script>
@@ -41,7 +28,7 @@ onMounted(() => {
                 <slot name="icons"></slot>
             </div>
         </div>
-        <div class="project-phases" ref="phases" :style="{'height': scrollHeight + 'px'}">
+        <div class="project-phases" :style="{'height': height + 'px'}">
             <div class="project-phases-wrapper">
                 <slot name="phases"></slot>
             </div>
