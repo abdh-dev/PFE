@@ -4,7 +4,7 @@ import { ref, onMounted, watch } from 'vue';
 
 const openProject = ref(false);
 const props = defineProps<{
-    // type: 'project' | 'everything'
+    project: Project
 }>()
 
 const phases = ref<HTMLDivElement | null>(null)
@@ -16,6 +16,12 @@ onMounted(() => {
             scrollHeight.value = phases.value!.scrollHeight;
         } else {
             scrollHeight.value = 0;
+        }
+    });
+
+    watch(() => props.project.phases, (phases) => {
+        if (openProject.value) {
+            scrollHeight.value = phases!.length * 32; // Change this value to match your desired height per phase
         }
     });
 })
