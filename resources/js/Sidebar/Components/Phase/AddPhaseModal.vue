@@ -30,8 +30,11 @@ const form = useForm<Phase>({
 const submit = () => {
     form.post(route('projects.phases.store', { project: props.project!.id! }), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
-        onFinish: () => closeModal(),
+        onSuccess: () => {
+            form.reset()
+            closeModal()
+        },
+        onFinish: () => form.reset(),
     });
 };
 

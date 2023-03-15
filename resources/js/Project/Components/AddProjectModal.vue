@@ -33,8 +33,11 @@ const form = useForm<Project>({
 const submit = () => {
     form.post(route('projects.store'), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
-        onFinish: () => closeModal(),
+        onSuccess: () => {
+            form.reset()
+            closeModal()
+        },
+        onFinish: () => form.reset(),
     });
 };
 
