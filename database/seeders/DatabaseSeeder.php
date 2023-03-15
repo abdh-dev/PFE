@@ -19,18 +19,19 @@ class DatabaseSeeder extends Seeder
     public function run(): void {
         User::factory()->create([
             "username" => "Abd",
-            "email" => "test@example.com"
+            "email" => "test@example.com",
+            "password" => bcrypt("password"),
         ]);
 
         User::factory(10)->create();
 
         Project::factory()
-            ->count(10)
+            ->count(3)
             ->for((new User)->first())
             ->create()
             ->each(function (Project $project) {
                 $project->phases()->saveMany(
-                    Phase::factory(5)->make()
+                    Phase::factory(3)->make()
                 );
             });
     }
