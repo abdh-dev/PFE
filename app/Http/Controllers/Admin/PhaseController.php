@@ -20,7 +20,7 @@ class PhaseController extends Controller
         return back();
     }
 
-    public function update(PhaseRequest $request, Project $project, Phase $phase): RedirectResponse {
+    public function update(PhaseRequest $request, Phase $phase): RedirectResponse {
         $phase->update($request->validated());
 
         return back();

@@ -2,7 +2,7 @@
 import ThreeVDots from '@/Components/Icons/ThreeVDots.vue';
 
 import { Link } from '@inertiajs/vue3';
-import { onMounted } from "vue";
+import { onBeforeUnmount, onMounted } from "vue";
 
 const props = defineProps<{
     project: Project
@@ -10,8 +10,8 @@ const props = defineProps<{
 
 let subscribed = false;
 
+const phaseChannel = Echo.private(`private.projects.${props.project.id}.phases`);
 onMounted(() => {
-    const phaseChannel = Echo.private(`private.projects.${props.project.id}.phases`);
     if (!subscribed) {
         phaseChannel
             .listen(".PhaseCreated", (e: any) => {
@@ -21,6 +21,10 @@ onMounted(() => {
             })
         subscribed = true;
     }
+})
+
+onBeforeUnmount(() => {
+    phaseChannel.stopListening(".PhaseCreated");
 })
 
 </script>
