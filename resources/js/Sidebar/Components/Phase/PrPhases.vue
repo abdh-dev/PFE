@@ -8,9 +8,19 @@ const props = defineProps<{
     project: Project
 }>()
 
-onMounted(() => {
-    const phaseChannel = Echo.channel(`private.projects.${props.projectId}.phases`);
+let subscribed = false;
 
+onMounted(() => {
+    const phaseChannel = Echo.private(`private.projects.${props.project.id}.phases`);
+    if (!subscribed) {
+        phaseChannel
+            .listen(".PhaseCreated", (e: any) => {
+                console.log("PhaseCreated", e);
+                if (!props.project.phases) props.project.phases = [];
+                props.project.phases.push(e.model);
+            })
+        subscribed = true;
+    }
 })
 
 </script>
@@ -19,7 +29,7 @@ onMounted(() => {
 
     <div
         class="project-phase"
-        v-if="project.phases.length"
+        v-if="project.phases?.length"
         v-for="(phase, index) in project.phases"
         :key="phase.id"
     >
