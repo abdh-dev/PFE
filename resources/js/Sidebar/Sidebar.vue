@@ -79,7 +79,7 @@ onMounted(() => {
                         <Plus @click="showPhaseModal(project)" />
                     </template>
                     <template #phases>
-                        <PrPhases :phases="project.phases" />
+                        <PrPhases :project="project" />
                     </template>
                 </PrItem>
                 <div v-else>
