@@ -60,7 +60,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="sidebar-dropdown">
+    <div class="sidebar-dropdown flex-grow-1">
         <div class="sidebar-search"></div>
         <div class="sidebar-title">Projects</div>
         <div class="sidebar-content">
