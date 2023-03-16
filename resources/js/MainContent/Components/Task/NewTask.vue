@@ -1,8 +1,17 @@
 <script setup lang="ts">
 
+import { ref } from "vue";
+
 defineEmits<{
     (event: "close"): void
 }>()
+
+const input = ref<HTMLInputElement | null>(null)
+
+const close = () => {
+    input.value!.value = ""
+    emit("close")
+}
 
 </script>
 
@@ -11,7 +20,7 @@ defineEmits<{
         <form class="new-task">
             <div class="task-main-row">
                 <div class="task-main-status" style="--default-color: blue"></div>
-                <input class="input-task-name" placeholder="Task name" type="text" />
+                <input class="input-task-name" ref="input" placeholder="Task name" type="text" />
             </div>
             <div class="new-task-item">
                 <div class="icon stroke-border-icon">
@@ -71,7 +80,7 @@ defineEmits<{
             <div class="new-task-item">
                 <input class="new-task-button" type="submit" value="Create" />
             </div>
-            <div class="new-task-item" @click.prevent="$emit('close')">
+            <div class="new-task-item" @click.prevent="close">
                 <div class="icon">
                     <svg viewBox="0 0 512 512">
                         <path d="m502.43 55.57-446.9 446.9a31.97 31.97 0 0 1-45.25 0 31.97 31.97 0 0 1 0-45.26l446.9-446.9a31.97 31.97 0 0 1 45.25 0 31.97 31.97 0 0 1 0 45.26z"></path>
