@@ -259,6 +259,10 @@ a {
     align-items: center;
 }
 
+.side-arrow-dropdown-header > .new-task-group {
+    margin-left: 10px;
+}
+
 .arrow-dropdown-toggle {
     width: max-content;
     transition: background 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86),
@@ -288,7 +292,8 @@ a {
 
 .side-arrow-dropdown-header-phase-title {
     margin-left: 5px;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
     line-height: 1.25;
     color: var(--default-color);
 }
@@ -541,6 +546,7 @@ span.task-number {
 }
 
 .input-task-name:focus {
+    all: unset;
     border: none;
     outline: none;
     padding: 0;
