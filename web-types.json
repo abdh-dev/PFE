@@ -1,6 +1,6 @@
 {
     "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/v2-preview/web-types.json",
-    "name": "my-project",
+    "name": "PFE",
     "framework": "vue",
     "version": "1.0.0",
     "contributions": {
