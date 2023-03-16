@@ -2,13 +2,14 @@ import './bootstrap';
 import '../css/app.css';
 
 import ColorInput from 'vue-color-input'
+import vuetify from "./vuetify";
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
-import vuetify from "./vuetify";
+import clickOutside from "./directives/ClickOutside";
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -21,6 +22,7 @@ createInertiaApp({
             .use(ColorInput)
             .use(ZiggyVue, Ziggy)
             .use(vuetify)
+            .directive("click-outside", clickOutside)
             .mount(el);
     },
     progress: {
