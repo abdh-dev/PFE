@@ -3,6 +3,7 @@ import '../css/app.css';
 
 import ColorInput from 'vue-color-input'
 import vuetify from "./vuetify";
+import Notification from "notiwind"
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
@@ -20,8 +21,9 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ColorInput)
-            .use(ZiggyVue, Ziggy)
             .use(vuetify)
+            .use(Notification)
+            .use(ZiggyVue, Ziggy)
             .directive("click-outside", clickOutside)
             .mount(el);
     },

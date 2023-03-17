@@ -1,6 +1,4 @@
-// @ts-ignore
-
-import ziggyRoute from "@types/ziggy-js";
+import ziggyRoute from "ziggy-js";
 import Echo from "laravel-echo";
 
 declare global {
@@ -22,4 +20,3 @@ declare module "vue/types/vue" {
     $route: typeof ziggyRoute;
   }
 }
-

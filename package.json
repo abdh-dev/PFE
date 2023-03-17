@@ -29,6 +29,7 @@
     "dependencies": {
         "laravel-echo": "^1.15.0",
         "material-design-icons-iconfont": "^6.7.0",
+        "notiwind": "^2.0.0",
         "pusher-js": "^8.0.1",
         "vue-color-input": "^1.0.6"
     },
