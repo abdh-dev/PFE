@@ -13,7 +13,7 @@ use Illuminate\Http\RedirectResponse;
 class ProjectController extends Controller
 {
     public function store(ProjectRequest $request): RedirectResponse {
-        $project = $request->user()->projects()->create($request->validated());
+        $request->user()->projects()->create($request->validated());
 
         return back();
     }
@@ -24,8 +24,7 @@ class ProjectController extends Controller
         return back();
     }
 
-    public function destroy($id): RedirectResponse {
-        $project = Project::findOrFail($id);
+    public function destroy(Project $project): RedirectResponse {
         $project->delete();
 
         return back();
