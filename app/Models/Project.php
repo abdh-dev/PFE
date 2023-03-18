@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Carbon;
 
 /**
@@ -69,6 +70,10 @@ class Project extends Model
 
     public function phases(): HasMany {
         return $this->hasMany(Phase::class);
+    }
+
+    public function tasks(): HasManyThrough {
+        return $this->hasManyThrough(Task::class, Phase::class);
     }
 
     public function broadcastOn($event): Channel {
