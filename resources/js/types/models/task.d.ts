@@ -10,8 +10,6 @@ type Task = {
     start_date: string | Date;
     due_date: string /* Date */;
     completion_date: string /* Date */;
-    // custom_fields: string | ; // array
-    // its an array
     custom_fields: Array<CustomField>;
     created_by?: number;
     updated_by?: number;
