@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -59,5 +60,34 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "title",
+        "description",
+        "status",
+        "priority",
+        "estimated_time",
+        "bonus",
+        "penalty",
+        "start_date",
+        "due_date",
+        "completion_date",
+        "custom_fields",
+        "created_by",
+    ];
 
+    protected $casts = [
+        "custom_fields" => "array",
+    ];
+
+    public function project(): BelongsTo {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function user(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+    public function phase(): BelongsTo {
+        return $this->belongsTo(Phase::class);
+    }
 }

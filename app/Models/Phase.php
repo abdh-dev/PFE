@@ -52,6 +52,10 @@ class Phase extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function tasks(): HasMany {
+        return $this->hasMany(Task::class);
+    }
+
     public function broadcastOn($event): PrivateChannel {
         return new PrivateChannel("private.projects.{$this->project_id}.phases");
     }

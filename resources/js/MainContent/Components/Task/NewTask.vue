@@ -1,26 +1,59 @@
 <script setup lang="ts">
 
 import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
+import Modal from "@/Components/Modal.vue";
 
-defineEmits<{
+// const props = defineProps<{
+//     phase: Phase
+// }>()
+
+const emit = defineEmits<{
     (event: "close"): void
 }>()
 
 const input = ref<HTMLInputElement | null>(null)
+const error = ref<boolean>(true)
 
 const close = () => {
     input.value!.value = ""
     emit("close")
 }
 
+const today = new Date().toISOString().slice(0, 10)
+const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+
+const form = useForm<Task>({
+    title: "",
+    status: 0,
+    priority: 0,
+    start_date: today,
+    due_date: tomorrow,
+    completion_date: "",
+    custom_fields: [],
+})
+
+const submit = () => {
+    form.post(route("tasks.store", { "phase_id": 1 }), {
+        onSuccess: () => {
+            close()
+            console.log("success")
+        },
+        onError: () => {
+            error.value = true
+            console.log(form.errors)
+        },
+    })
+}
+
 </script>
 
 <template>
     <div class="task-container">
-        <form class="new-task">
+        <form class="new-task" @submit.prevent="submit">
             <div class="task-main-row">
                 <div class="task-main-status" style="--default-color: blue"></div>
-                <input class="input-task-name" ref="input" placeholder="Task name" type="text" />
+                <input class="input-task-name" v-model="form.title" ref="input" placeholder="Task name" type="text" />
             </div>
             <div class="new-task-item">
                 <div class="icon stroke-border-icon">

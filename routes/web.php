@@ -3,7 +3,8 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PhaseController;
 use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\ProfileController;
+    use App\Http\Controllers\Admin\TaskController;
+    use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,9 +29,17 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', [DashboardController::class, "index"])
-    ->name('dashboard')
-    ->middleware('auth');
+Route::group(["middleware" => "auth", "prefix" => "dashboard"], function () {
+    Route::get("/", [DashboardController::class, "index"])
+        ->name("dashboard");
+
+    Route::get("/pr/{project}", [DashboardController::class, "showProject"])
+        ->name("dashboard.project");
+});
+
+//Route::get('/dashboard', [DashboardController::class, "index"])
+//    ->name('dashboard')
+//    ->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,8 +55,14 @@ Route::resource("projects.phases", PhaseController::class)
     ->only(["store", "update", "destroy"])
     ->middleware("auth");
 
+Route::resource("tasks", TaskController::class)
+    ->only(["store", "update", "destroy"])
+    ->middleware("auth");
+
 Route::get("/fresh", function () {
     Artisan::call("migrate:fresh --seed");
+    // clear all cache
+    Artisan::call("cache:clear");
     return redirect()->route("dashboard");
 });
 
