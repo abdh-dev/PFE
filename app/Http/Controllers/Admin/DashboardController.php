@@ -12,12 +12,24 @@ use Inertia\Response;
 class DashboardController extends Controller
 {
     public function index(): Response {
+//        Cache::flush();
+
+        // this will be change later since it's not efficient at all
         $sidebarProjects = Cache::rememberForever("sidebar_projects", function () {
-            return Project::with("phases")->get();
+            return Project::with(["phases" => function ($query) {
+                $query->withCount("tasks");
+            }])->get();
+        });
+
+        $projects = Cache::rememberForever("projects", function () {
+            return Project::with(["phases" => function ($query) {
+                $query->with("tasks");
+            }])->get();
         });
 
         return Inertia::render("Dashboard", [
-            "sidebarProjects" => $sidebarProjects
+            "sidebarProjects" => $sidebarProjects,
+            "projects" => $projects
         ]);
     }
 
