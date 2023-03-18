@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string("title");
-            $table->string("description")->default("");
+            $table->longText("description")->default("");
             $table->smallInteger("status")->default(0);
             $table->smallInteger("priority")->default(0);
             $table->decimal("estimated_time")->default(0);
@@ -26,10 +26,10 @@ return new class extends Migration
             $table->date("completion_date")->nullable();
             $table->json("custom_fields")->default("[]");
 
-            $table->foreignId("created_by")->constrained("users");
-            $table->foreignId("updated_by")->constrained("users");
-            $table->foreignId("depends_on")->constrained("tasks");
-            $table->foreignId("subtask_of")->constrained("tasks");
+            $table->foreignId("created_by")->nullable()->constrained("users");
+            $table->foreignId("updated_by")->nullable()->constrained("users");
+            $table->foreignId("depends_on")->nullable()->constrained("tasks");
+            $table->foreignId("subtask_of")->nullable()->constrained("tasks");
             $table->foreignId("phase_id")->constrained();
             $table->timestamps();
         });
