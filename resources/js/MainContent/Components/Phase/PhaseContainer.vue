@@ -16,10 +16,9 @@ const newTaskBtn = ref<HTMLButtonElement | null>(null);
 const isNewTaskOpen = ref(false);
 
 const showNewTask = (e: PointerEvent) => {
-    if (e.target == newTaskBtn.value! && isNewTaskOpen.value) return;
+    if (e?.target == newTaskBtn.value! && isNewTaskOpen.value) return;
     isNewTaskOpen.value = !isNewTaskOpen.value;
 };
-
 
 </script>
 
@@ -44,8 +43,8 @@ const showNewTask = (e: PointerEvent) => {
             <button class="new-task-group" ref="newTaskBtn" @click="showNewTask">+ New task</button>
         </div>
         <div class="side-arrow-dropdown-content">
+            <NewTask v-if="isNewTaskOpen" v-click-outside="showNewTask" @close="showNewTask" :phase="phase"/>
             <slot />
-            <NewTask v-if="isNewTaskOpen" v-click-outside="showNewTask" @close="showNewTask"/>
         </div>
     </div>
 </template>
