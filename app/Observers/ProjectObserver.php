@@ -13,6 +13,7 @@ class ProjectObserver
     public function created(Project $project): void
     {
         Cache::forget("sidebar_projects");
+        Cache::forget("projects_phases_tasks");
     }
 
     /**
@@ -21,6 +22,7 @@ class ProjectObserver
     public function updated(Project $project): void
     {
         Cache::forget("sidebar_projects");
+        Cache::forget("projects_phases_tasks");
     }
 
     /**
@@ -29,6 +31,7 @@ class ProjectObserver
     public function deleted(Project $project): void
     {
         Cache::forget("sidebar_projects");
+        Cache::forget("projects_phases_tasks");
     }
 
     /**

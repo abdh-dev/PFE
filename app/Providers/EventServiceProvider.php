@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Phase;
 use App\Models\Project;
 use App\Models\Task;
+use App\Observers\PhaseObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\TaskObserver;
 use Illuminate\Auth\Events\Registered;
@@ -23,7 +25,11 @@ class EventServiceProvider extends ServiceProvider
         ],
     ];
 
-    protected $observers  = [];
+    protected $observers  = [
+        Project::class => ProjectObserver::class,
+        Phase::class => PhaseObserver::class,
+        Task::class => TaskObserver::class,
+    ];
 
     /**
      * Register any events for your application.
@@ -32,10 +38,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-          parent::boot();
 
-          Project::observe(ProjectObserver::class);
-          Task::observe(TaskObserver::class);
     }
 
     /**

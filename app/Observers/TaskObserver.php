@@ -14,6 +14,7 @@ class TaskObserver
     public function created(Task $task): void
     {
         Cache::forget("sidebar_projects");
+        Cache::forget("projects_phases_tasks");
         $task->created_by = Auth::id();
         $task->updated_by = Auth::id();
         $task->save();
@@ -24,15 +25,16 @@ class TaskObserver
      */
     public function updated(Task $task): void
     {
-        //
+        Cache::forget("sidebar_projects");
+        Cache::forget("projects_phases_tasks");
     }
 
     /**
      * Handle the Task "deleted" event.
      */
-    public function deleted(Task $task): void
-    {
-        //
+    public function deleted(Task $task): void {
+        Cache::forget("sidebar_projects");
+        Cache::forget("projects_phases_tasks");
     }
 
     /**
