@@ -25,7 +25,6 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-
     <div
         class="project-phase"
         v-if="project.phases?.length"
@@ -40,10 +39,9 @@ onBeforeUnmount(() => {
             <ThreeVDots />
         </div>
 
-        <span class="phase-task-number">{{ phase.tasks?.length ?? 0 }}</span>
+        <span class="phase-task-number">{{ phase.tasks_count ?? 0 }}</span>
     </div>
     <div v-else>
         No phases yet
     </div>
-
 </template>
