@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Phase;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,7 +33,11 @@ class DatabaseSeeder extends Seeder
             ->each(function (Project $project) {
                 $project->phases()->saveMany(
                     Phase::factory(3)->make()
-                );
+                )->each(function (Phase $phase) {
+                    $phase->tasks()->saveMany(
+                        Task::factory(3)->make()
+                    );
+                });
             });
     }
 }
