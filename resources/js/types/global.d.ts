@@ -7,6 +7,7 @@ declare global {
       Echo: Echo;
   }
   const Echo: Echo
+  const _: typeof import("lodash");
 }
 
 declare module "@vue/runtime-core" {
