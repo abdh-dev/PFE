@@ -8,6 +8,10 @@ const props = defineProps<{
     projects: Project[],
 }>()
 
+const groupTaskByStatus = (tasks: Task[]) => {
+    return _.groupBy(tasks, (task: Task) => task.status);
+}
+
 </script>
 
 <template>
@@ -26,8 +30,13 @@ const props = defineProps<{
                 :project="project"
                 :index="index"
             >
-                <TaskList>
-                    <TaskContainer />
+                <TaskList
+                    v-for="(task, index) in groupTaskByStatus(phase.tasks)"
+                    :key="index"
+                    :tasks="task"
+                    :phase="phase"
+                >
+                    <TaskContainer :tasks="task" />
                 </TaskList>
             </PhaseContainer>
         </ProjectContainer>
