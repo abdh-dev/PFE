@@ -2,11 +2,15 @@
 
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
-import Modal from "@/Components/Modal.vue";
 
-// const props = defineProps<{
-//     phase: Phase
-// }>()
+type props = {
+    phase: Phase;
+    color?: string;
+};
+
+const props = withDefaults(defineProps<props>(), {
+    color: "gray",
+});
 
 const emit = defineEmits<{
     (event: "close"): void
@@ -25,7 +29,7 @@ const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOStrin
 
 const form = useForm<Task>({
     title: "",
-    status: 0,
+    status: 1,
     priority: 0,
     start_date: today,
     due_date: tomorrow,
@@ -34,7 +38,7 @@ const form = useForm<Task>({
 })
 
 const submit = () => {
-    form.post(route("tasks.store", { "phase_id": 1 }), {
+    form.post(route("tasks.store", { "phase_id": props.phase.id! }), {
         onSuccess: () => {
             close()
             console.log("success")
@@ -52,7 +56,7 @@ const submit = () => {
     <div class="task-container">
         <form class="new-task" @submit.prevent="submit">
             <div class="task-main-row">
-                <div class="task-main-status" style="--default-color: blue"></div>
+                <div class="task-main-status" :style="{ '--default-color': color }"></div>
                 <input class="input-task-name" v-model="form.title" ref="input" placeholder="Task name" type="text" />
             </div>
             <div class="new-task-item">
