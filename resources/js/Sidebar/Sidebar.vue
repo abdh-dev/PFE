@@ -5,6 +5,7 @@ import AddPhaseModal from '@/Sidebar/Components/Phase/AddPhaseModal.vue';
 import AddProjectModal from "@/Project/Components/AddProjectModal.vue";
 import PrItem from '@/Sidebar/Components/Project/PrItem.vue';
 import PrPhases from '@/Sidebar/Components/Phase/PrPhases.vue';
+import { useWebsocket } from "@/hooks/useWebsocket";
 
 import { onMounted, ref } from 'vue';
 
@@ -29,28 +30,29 @@ const closePhaseModal = () => {
     selectedProject.value = null;
 }
 
-// TODO - change this later to a private channel and stop listening on unmount
+const projectStore = (e: SocketEvent) => {
+    console.log("ProjectCreated", e);
+    props.projects.push(e.model);
+}
 
-onMounted(() => {
-    const projectChannel = Echo.channel('public.projects');
+// const projectUpdate = (e: SocketEvent) => {
+//     console.log("ProjectUpdated", e);
+//     const project: Project = e.model;
+//     const updateIndex = props.projects.findIndex(project => project.id == project.id)
+//     if (updateIndex !== -1) props.projects[updateIndex] = project;
+// }
+//
+// const projectDelete = (e: SocketEvent) => {
+//     console.log("ProjectDeleted", e);
+//     const project_: Project = e.model;
+//     const deleteIndex = props.projects.findIndex(project => project.id == project_.id)
+//     if (deleteIndex !== -1) props.projects.splice(deleteIndex, 1);
+// }
 
-    projectChannel
-        .listen('.ProjectCreated', (e: any) => {
-            console.log('ProjectCreated', e);
-            props.projects.push(e.model);
-        })
-        .listen('.ProjectUpdated', (e: any) => {
-            console.log('ProjectUpdated', e);
-            const project: Project = e.model;
-            const updateIndex = props.projects.findIndex(project => project.id == project.id)
-            if (updateIndex !== -1) props.projects[updateIndex] = project;
-        })
-        .listen('.ProjectDeleted', (e: any) => {
-            console.log('ProjectDeleted', e);
-            const project_: Project = e.model;
-            const deleteIndex = props.projects.findIndex(project => project.id == project_.id)
-            if (deleteIndex !== -1) props.projects.splice(deleteIndex, 1);
-        });
+useWebsocket('public.projects', {
+    '.ProjectCreated': projectStore,
+    // '.ProjectUpdated': projectUpdate,
+    // '.ProjectDeleted': projectDelete,
 });
 
 </script>
