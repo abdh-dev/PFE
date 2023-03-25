@@ -67,7 +67,11 @@ const showNewTask = (e: PointerEvent) => {
         </div>
         <div class="side-arrow-dropdown-content">
             <slot />
-            <NewTask v-if="isNewTaskOpen" v-click-outside="showNewTask" @close="showNewTask" :phase="phase"/>
+            <NewTask v-if="isNewTaskOpen"
+                     v-click-outside="showNewTask"
+                     @close="showNewTask"
+                     :phase="phase"
+                     :color="taskColor" />
             <button class="new-task-group" ref="newTaskBtn" @click="showNewTask">+ New task</button>
         </div>
     </div>
