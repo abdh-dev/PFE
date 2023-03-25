@@ -21,7 +21,7 @@ class DashboardController extends Controller
             }])->get();
         });
 
-        $projects = Cache::rememberForever("projects", function () {
+        $projects = Cache::rememberForever("projects_phases_tasks", function () {
             return Project::with(["phases" => function ($query) {
                 $query->with("tasks");
             }])->get();
