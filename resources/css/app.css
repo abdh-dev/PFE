@@ -237,7 +237,7 @@ a {
     background-color: var(--background-color);
     margin: 10px;
     padding: 10px;
-    border-left: var(--phase-color) 7px solid;
+    border-left: var(--phase-color, transparent) 7px solid;
     border-radius: 8px;
     min-height: 100px;
 }
