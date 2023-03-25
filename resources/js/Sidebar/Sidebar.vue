@@ -4,19 +4,13 @@ import PrItemEverything from '@/Sidebar/Components/Project/PrItemEverything.vue'
 import AddPhaseModal from '@/Sidebar/Components/Phase/AddPhaseModal.vue';
 import AddProjectModal from "@/Project/Components/AddProjectModal.vue";
 import PrItem from '@/Sidebar/Components/Project/PrItem.vue';
-import PrName from '@/Sidebar/Components/Project/PrName.vue';
 import PrPhases from '@/Sidebar/Components/Phase/PrPhases.vue';
-import ThreeVDots from '@/Components/Icons/ThreeVDots.vue';
-import Plus from '@/Components/Icons/Plus.vue';
 
-import { Link } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 
 const props = defineProps<{
     projects: Project[]
 }>()
-
-console.log(props.projects[0].phases)
 
 const projectModal = ref(false);
 const closeProjectModal = () => {
@@ -34,6 +28,8 @@ const closePhaseModal = () => {
     phaseModal.value = false;
     selectedProject.value = null;
 }
+
+// TODO - change this later to a private channel and stop listening on unmount
 
 onMounted(() => {
     const projectChannel = Echo.channel('public.projects');
@@ -72,17 +68,9 @@ onMounted(() => {
                     v-for="project in projects"
                     :key="project.id"
                     :project="project"
+                    @showPhase="showPhaseModal"
                 >
-                    <PrName :project="project" />
-                    <template #icons>
-                        <Link href="">
-                            <ThreeVDots />
-                        </Link>
-                        <Plus @click="showPhaseModal(project)" />
-                    </template>
-                    <template #phases>
-                        <PrPhases :project="project" />
-                    </template>
+                    <PrPhases :project="project" />
                 </PrItem>
                 <div v-else>
                     No projects yet
