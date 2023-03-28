@@ -257,7 +257,7 @@ a {
 .side-arrow-dropdown-header {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;*/
 }
 
 .side-arrow-dropdown-header > .new-task-group {
