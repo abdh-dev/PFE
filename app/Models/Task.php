@@ -3,15 +3,14 @@
 namespace App\Models;
 
 use Eloquent;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Database\Eloquent\{BroadcastableModelEventOccurred,
+use Illuminate\Database\Eloquent\{
     BroadcastsEvents,
     Builder,
     Factories\HasFactory,
     Model,
-    Relations\BelongsTo,
-    Relations\HasOneThrough};
+    Relations\BelongsTo
+};
 use Illuminate\Support\Carbon;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -104,11 +103,5 @@ class Task extends Model
             new PrivateChannel("private.phase.{$this->phase_id}.tasks"),
             new PrivateChannel("private.project.{$this->project->id}.phases")
         ];
-    }
-    
-    protected function newBroadcastableEvent(string $event): BroadcastableModelEventOccurred {
-        return (new BroadcastableModelEventOccurred(
-            $this, $event
-        ))->dontBroadcastToCurrentUser();
     }
 }
