@@ -1,6 +1,6 @@
 type SocketEvent = {
-    afterCommit: boolean;
-    connection: any;
-    model: any;
-    queue: any;
+  afterCommit: boolean
+  connection: never
+  model: never
+  queue: never
 }

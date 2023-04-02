@@ -1,5 +1,5 @@
 type CustomField = {
-    id?: number;
-    name: string;
-    type: string;
+  id?: number
+  name: string
+  type: string
 }

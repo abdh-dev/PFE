@@ -1,1 +1,1 @@
-declare module "lodash/core";
+declare module 'lodash/core'

@@ -1,23 +1,23 @@
-import ziggyRoute from "ziggy-js";
-import Echo from "laravel-echo";
+import ziggyRoute from 'ziggy-js'
+import Echo from 'laravel-echo'
 
 declare global {
-  const route: typeof ziggyRoute;
+  const route: typeof ziggyRoute
   interface Window {
-      Echo: Echo;
+    Echo: Echo
   }
   const Echo: Echo
-  const _: typeof import("lodash");
+  const _: typeof import('lodash')
 }
 
-declare module "@vue/runtime-core" {
+declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $route: typeof ziggyRoute;
+    $route: typeof ziggyRoute
   }
 }
 
-declare module "vue/types/vue" {
+declare module 'vue/types/vue' {
   interface Vue {
-    $route: typeof ziggyRoute;
+    $route: typeof ziggyRoute
   }
 }
