@@ -3,11 +3,11 @@
     "node": true
   },
   "extends": [
-    "prettier",
     "eslint:recommended",
     "plugin:vue/base",
     "plugin:vue/vue3-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
@@ -32,7 +32,7 @@
     }],
     "vue/singleline-html-element-content-newline": "off",
     "vue/multi-word-component-names": ["error", {
-      "ignores": ["Sidebar", "Dashboard"]
+      "ignores": ["Sidebar", "Dashboard", "Tasks"]
     }]
   },
   "overrides": [
