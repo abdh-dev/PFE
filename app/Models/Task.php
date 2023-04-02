@@ -3,11 +3,17 @@
 namespace App\Models;
 
 use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Database\Eloquent\{BroadcastableModelEventOccurred,
+    BroadcastsEvents,
+    Builder,
+    Factories\HasFactory,
+    Model,
+    Relations\BelongsTo,
+    Relations\HasOneThrough};
 use Illuminate\Support\Carbon;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
  * App\Models\Task
@@ -29,6 +35,8 @@ use Illuminate\Support\Carbon;
  * @property int $depends_on
  * @property int $subtask_of
  * @property int $phase_id
+ * @property-read Phase $phase
+ * @property-read Project $project
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @method static Builder|Task newModelQuery()
@@ -58,7 +66,7 @@ use Illuminate\Support\Carbon;
 
 class Task extends Model
 {
-    use HasFactory;
+    use HasFactory, BroadcastsEvents, BelongsToThrough;
 
     protected $fillable = [
         "title",
@@ -79,8 +87,8 @@ class Task extends Model
         "custom_fields" => "array",
     ];
 
-    public function project(): BelongsTo {
-        return $this->belongsTo(Project::class);
+    public function project(): \Znck\Eloquent\Relations\BelongsToThrough {
+        return $this->belongsToThrough(Project::class, Phase::class);
     }
 
     public function user(): BelongsTo {
@@ -89,5 +97,18 @@ class Task extends Model
 
     public function phase(): BelongsTo {
         return $this->belongsTo(Phase::class);
+    }
+
+    public function broadcastOn($event): array {
+        return [
+            new PrivateChannel("private.phase.{$this->phase_id}.tasks"),
+            new PrivateChannel("private.project.{$this->project->id}.phases")
+        ];
+    }
+    
+    protected function newBroadcastableEvent(string $event): BroadcastableModelEventOccurred {
+        return (new BroadcastableModelEventOccurred(
+            $this, $event
+        ))->dontBroadcastToCurrentUser();
     }
 }

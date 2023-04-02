@@ -17,7 +17,12 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel("private.projects.{id}.phases", function ($user, $id) {
+Broadcast::channel("private.project.{id}.phases", function ($user, $id) {
+    return true;
+//    return $user->projects->contains($id);
+});
+
+Broadcast::channel("private.phase.{id}.tasks", function ($user, $id) {
     return true;
 //    return $user->projects->contains($id);
 });

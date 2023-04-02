@@ -25,11 +25,12 @@ class ProjectRequest extends FormRequest
     {
         return [
             "name" => ["required", "string", "max:255", "unique:projects,name"],
-            "description" => ["required", "string|max:255"],
-            "timeline" => ["required", "date", "after:today"],
+            "description" => ["required", "string", "max:255"],
+            "timeline" => ["required", "date"],
+//            "timeline" => ["required", "date", "after:today"],
             "budget" => ["required", "integer"],
             "resource_allocation" => ["required", "integer"],
-            "color" => ["nullable", "string", "max:255"],
+            "color" => ["nullable", "string", "max:255"]
         ];
     }
 }

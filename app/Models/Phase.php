@@ -57,6 +57,6 @@ class Phase extends Model
     }
 
     public function broadcastOn($event): PrivateChannel {
-        return new PrivateChannel("private.projects.{$this->project_id}.phases");
+        return new PrivateChannel("private.project.{$this->project_id}.phases");
     }
 }

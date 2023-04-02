@@ -1,38 +1,38 @@
-<script setup lang="ts">
-import AddProjectButton from '@/Sidebar/Components/Project/AddProjectButton.vue';
-import PrItemEverything from '@/Sidebar/Components/Project/PrItemEverything.vue';
-import AddPhaseModal from '@/Sidebar/Components/Phase/AddPhaseModal.vue';
-import AddProjectModal from "@/Project/Components/AddProjectModal.vue";
-import PrItem from '@/Sidebar/Components/Project/PrItem.vue';
-import PrPhases from '@/Sidebar/Components/Phase/PrPhases.vue';
-import { useWebsocket } from "@/hooks/useWebsocket";
+<script lang="ts" setup>
+import AddProjectButton from '@/Sidebar/Components/Project/AddProjectButton.vue'
+import PrItemEverything from '@/Sidebar/Components/Project/PrItemEverything.vue'
+import AddPhaseModal from '@/Sidebar/Components/Phase/AddPhaseModal.vue'
+import AddProjectModal from '@/Project/Components/AddProjectModal.vue'
+import ProjectItem from '@/Sidebar/Components/Project/ProjectItem.vue'
+import { useWebsocket } from '@/hooks/useWebsocket'
 
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue'
 
 const props = defineProps<{
-    projects: Project[]
+  projects: Project[]
 }>()
 
-const projectModal = ref(false);
+const projects = ref<Project[]>(props.projects)
+const projectModal = ref(false)
 const closeProjectModal = () => {
-    projectModal.value = false;
-};
+  projectModal.value = false
+}
 
-const phaseModal = ref(false);
-const selectedProject = ref<Project | null>(null);
+const phaseModal = ref(false)
+const selectedProject = ref<Project | null>(null)
 const showPhaseModal = (project: Project) => {
-    selectedProject.value = project;
-    phaseModal.value = true;
-};
+  selectedProject.value = project
+  phaseModal.value = true
+}
 
 const closePhaseModal = () => {
-    phaseModal.value = false;
-    selectedProject.value = null;
+  phaseModal.value = false
+  selectedProject.value = null
 }
 
 const projectStore = (e: SocketEvent) => {
-    console.log("ProjectCreated", e);
-    props.projects.push(e.model);
+  console.log('ProjectCreated', e)
+  projects.value.push(e.model)
 }
 
 // const projectUpdate = (e: SocketEvent) => {
@@ -49,38 +49,40 @@ const projectStore = (e: SocketEvent) => {
 //     if (deleteIndex !== -1) props.projects.splice(deleteIndex, 1);
 // }
 
-useWebsocket('public.projects', {
+useWebsocket(
+  'public.projects',
+  {
     '.ProjectCreated': projectStore,
     // '.ProjectUpdated': projectUpdate,
     // '.ProjectDeleted': projectDelete,
-});
-
+  },
+  false
+)
 </script>
 
 <template>
-    <div class="sidebar-dropdown flex-grow-1">
-        <div class="sidebar-search"></div>
-        <div class="sidebar-title">Projects</div>
-        <div class="sidebar-content">
-            <div class="sidebar-project-list">
-                <AddProjectButton @click.prevent="projectModal = !projectModal" />
-                <PrItemEverything />
-                <PrItem
-                    v-if="projects.length"
-                    v-for="project in projects"
-                    :key="project.id"
-                    :project="project"
-                    @showPhase="showPhaseModal"
-                >
-                    <PrPhases :project="project" />
-                </PrItem>
-                <div v-else>
-                    No projects yet
-                </div>
-            </div>
-        </div>
-    </div>
+  <div class="sidebar-dropdown flex-grow-1">
+    <div class="sidebar-search" />
+    <div class="sidebar-title">Projects</div>
+    <div class="sidebar-content">
+      <div class="sidebar-project-list">
+        <AddProjectButton @click.prevent="projectModal = !projectModal" />
+        <PrItemEverything />
 
-    <AddProjectModal :show="projectModal" @close="closeProjectModal" />
-    <AddPhaseModal :show="phaseModal" :project="selectedProject" @close="closePhaseModal" />
+        <ProjectItem
+          v-for="project in projects"
+          :key="project.id"
+          :project="project"
+          @show-phase="showPhaseModal"
+        />
+      </div>
+    </div>
+  </div>
+
+  <AddProjectModal :show="projectModal" @close="closeProjectModal" />
+  <AddPhaseModal
+    :show="phaseModal"
+    :project="selectedProject"
+    @close="closePhaseModal"
+  />
 </template>

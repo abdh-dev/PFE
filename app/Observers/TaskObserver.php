@@ -17,7 +17,10 @@ class TaskObserver
         Cache::forget("projects_phases_tasks");
         $task->created_by = Auth::id();
         $task->updated_by = Auth::id();
-        $task->save();
+
+        Task::withoutEvents(function () use ($task) {
+            $task->save();
+        });
     }
 
     /**
