@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ProjectContainer from '@/MainContent/Components/Project/ProjectContainer.vue'
-import PhaseContainer from '@/MainContent/Components/Phase/PhaseContainer.vue'
 
 import { useWebsocket } from '@/hooks/useWebsocket'
 import { ref } from 'vue'
@@ -29,9 +28,7 @@ useWebsocket(
       v-for="project in projects"
       :key="project.id"
       :project="project"
-    >
-      <PhaseContainer :project="project" />
-    </ProjectContainer>
+    />
 
     <div v-if="projects.length === 0">
       <div class="flex flex-col items-center justify-center h-full">

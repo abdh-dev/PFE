@@ -4,7 +4,7 @@ import Plus from '@/Components/Icons/Plus.vue'
 import PhaseItem from '@/Sidebar/Components/Phase/PhaseItem.vue'
 
 import { Link } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 import { useWebsocket } from '@/hooks/useWebsocket'
 
 const props = defineProps<{
@@ -15,8 +15,8 @@ const emit = defineEmits<{
   (event: 'showPhase', project: Project): void
 }>()
 
-const project = ref<Project>(props.project)
-const phases = ref<Phase[]>(props.project.phases ?? [])
+const project = ref<Project>(props.project) as Ref<Project>
+const phases = ref<Phase[]>(project.value.phases ?? []) as Ref<Phase[]>
 const openProject = ref(false)
 const color = computed(() => project.value.color ?? '#7c828d')
 
@@ -34,6 +34,9 @@ const height = computed(() => {
 const phaseStore = (e: SocketEvent) => {
   console.log('PhaseCreated', e)
   phases.value.push(e.model)
+  // if (!project.value.phases) project.value.phases = []
+  // project.value.phases.push(e.model)
+  // console.log(project.value.phases)
 }
 
 useWebsocket(`private.project.${project.value.id}.phases`, {
@@ -72,7 +75,7 @@ useWebsocket(`private.project.${project.value.id}.phases`, {
     <div class="project-phases" :style="{ height: height + 'px' }">
       <div class="project-phases-wrapper">
         <PhaseItem
-          v-for="(phase, index) in phases"
+          v-for="(phase, index) in project.phases"
           :key="phase.id"
           :phase="phase"
           :index="index"

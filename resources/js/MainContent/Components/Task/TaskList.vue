@@ -31,7 +31,7 @@ const isNewTaskOpen = ref(false)
 
 const showNewTask = (e: PointerEvent) => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  if (e?.target === newTaskBtn.value!) return
+  if (e?.target === newTaskBtn.value! && isNewTaskOpen.value) return
   isNewTaskOpen.value = !isNewTaskOpen.value
 }
 </script>
