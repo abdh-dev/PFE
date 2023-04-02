@@ -59,11 +59,18 @@ Route::resource("tasks", TaskController::class)
     ->only(["store", "update", "destroy"])
     ->middleware("auth");
 
-Route::get("/fresh", function () {
-    Artisan::call("migrate:fresh --seed");
-    // clear all cache
-    Artisan::call("cache:clear");
-    return redirect()->route("dashboard");
+Route::prefix("/fresh")->group(function () {
+    Route::get("/", function () {
+        Artisan::call("migrate:fresh --seed");
+        Artisan::call("cache:clear");
+        return redirect()->route("dashboard");
+    });
+
+    Route::get("/no-seed", function () {
+        Artisan::call("migrate:fresh --seed --seeder=UserSeeder");
+        Artisan::call("cache:clear");
+        return redirect()->route("dashboard");
+    });
 });
 
 
