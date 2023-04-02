@@ -18,21 +18,17 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run(): void {
-        User::factory()->create([
-            "username" => "Abd",
-            "email" => "test@example.com",
-            "password" => bcrypt("password"),
+        $this->call([
+            UserSeeder::class,
         ]);
 
-        User::factory(10)->create();
-
         Project::factory()
-            ->count(3)
+            ->count(1)
             ->for((new User)->first())
             ->create()
             ->each(function (Project $project) {
                 $project->phases()->saveMany(
-                    Phase::factory(3)->make()
+                    Phase::factory(1)->make()
                 )->each(function (Phase $phase) {
                     $phase->tasks()->saveMany(
                         Task::factory(3)->make()
