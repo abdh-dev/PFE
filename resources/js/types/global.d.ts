@@ -8,7 +8,19 @@ declare global {
   }
   const Echo: Echo
   const _: typeof import('lodash')
+  const Ziggy: typeof import('ziggy-js')
 }
+//
+// declare module 'ziggy-js' {
+//   interface Ziggy {
+//     namedRoutes: Record<string, string>
+//     baseUrl: string
+//     baseProtocol: string
+//     baseDomain: string
+//     basePort: number | null
+//     defaultParameters: Record<string, string>
+//   }
+// }
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
