@@ -13,7 +13,7 @@
     "esModuleInterop": true,
     "allowJs": true,
     "lib": ["esnext", "dom"],
-    "types": ["@types/node", "@types/ziggy-js"],
+    "types": ["@types/node", "@types/ziggy-js", "vite/client"],
     "paths": {
       "@/*": ["./resources/js/*"]
     },
