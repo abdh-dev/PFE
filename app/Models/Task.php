@@ -65,43 +65,48 @@ use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Task extends Model
 {
-    use HasFactory, BroadcastsEvents, BelongsToThrough;
+  use HasFactory, BroadcastsEvents, BelongsToThrough;
 
-    protected $fillable = [
-        "title",
-        "description",
-        "status",
-        "priority",
-        "estimated_time",
-        "bonus",
-        "penalty",
-        "start_date",
-        "due_date",
-        "completion_date",
-        "custom_fields",
-        "created_by",
+  protected $fillable = [
+    "title",
+    "description",
+    "status",
+    "priority",
+    "estimated_time",
+    "bonus",
+    "penalty",
+    "start_date",
+    "due_date",
+    "completion_date",
+    "custom_fields",
+    "created_by",
+  ];
+
+  protected $casts = [
+    "custom_fields" => "array",
+  ];
+
+  public function project(): \Znck\Eloquent\Relations\BelongsToThrough {
+    return $this->belongsToThrough(Project::class, Phase::class);
+  }
+
+  public function user(): BelongsTo {
+    return $this->belongsTo(User::class);
+  }
+
+  public function phase(): BelongsTo {
+    return $this->belongsTo(Phase::class);
+  }
+
+  public function broadcastOn(string $event): PrivateChannel {
+    return new PrivateChannel("private.project.{$this->project->id}");
+  }
+
+  public function broadcastWith(string $event): array {
+    return [
+      'model' => $this,
+      'projectId' => $this->project->id,
+      'phaseId' => $this->phase_id
     ];
-
-    protected $casts = [
-        "custom_fields" => "array",
-    ];
-
-    public function project(): \Znck\Eloquent\Relations\BelongsToThrough {
-        return $this->belongsToThrough(Project::class, Phase::class);
-    }
-
-    public function user(): BelongsTo {
-        return $this->belongsTo(User::class);
-    }
-
-    public function phase(): BelongsTo {
-        return $this->belongsTo(Phase::class);
-    }
-
-    public function broadcastOn($event): array {
-        return [
-            new PrivateChannel("private.phase.{$this->phase_id}.tasks"),
-            new PrivateChannel("private.project.{$this->project->id}.phases")
-        ];
-    }
+  }
 }

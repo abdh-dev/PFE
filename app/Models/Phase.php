@@ -40,23 +40,31 @@ use Illuminate\Support\Carbon;
 
 class Phase extends Model
 {
-    use HasFactory, BroadcastsEvents;
+  use HasFactory, BroadcastsEvents;
 
-    protected $fillable = [
-        "name",
-        "description",
-        "color"
+  protected $fillable = [
+    "name",
+    "description",
+    "color"
+  ];
+
+  public function project(): BelongsTo {
+    return $this->belongsTo(Project::class);
+  }
+
+  public function tasks(): HasMany {
+    return $this->hasMany(Task::class);
+  }
+
+  public function broadcastOn($event): PrivateChannel {
+    return new PrivateChannel("private.project.{$this->project_id}");
+  }
+
+  public function broadcastWith(string $event): array {
+    return [
+      'model' => $this,
+      'projectId' => $this->project_id,
+      'phaseId' => $this->id
     ];
-
-    public function project(): BelongsTo {
-        return $this->belongsTo(Project::class);
-    }
-
-    public function tasks(): HasMany {
-        return $this->hasMany(Task::class);
-    }
-
-    public function broadcastOn($event): PrivateChannel {
-        return new PrivateChannel("private.project.{$this->project_id}.phases");
-    }
+  }
 }

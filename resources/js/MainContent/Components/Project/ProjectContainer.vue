@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import PhaseContainer from '@/MainContent/Components/Phase/PhaseContainer.vue'
 import { useWebsocket } from '@/hooks/useWebsocket'
-import { Ref, ref } from 'vue'
+import { useProjectStore } from '@/stores/project'
+import PhaseContainer from '@/MainContent/Components/Phase/PhaseContainer.vue'
 
 const props = defineProps<{
   project: Project
 }>()
 
-const project = ref<Project>(props.project) as Ref<Project>
+const useProject = useProjectStore()
+const { pushPhase, pushTask } = useProject
 
-useWebsocket(`private.project.${project.value.id}.phases`, {
-  '.PhaseCreated': (e: SocketEvent) => {
-    if (!project.value.phases) project.value.phases = []
-    project.value.phases.push(e.model)
-    console.log(project.value.phases)
-  },
+useWebsocket(`private.project.${props.project.id}`, {
+  '.PhaseCreated': (e) => pushPhase(e.projectId, e.model),
+  '.TaskCreated': (e) => pushTask(e.projectId, e.phaseId, e.model),
 })
 </script>
 
@@ -24,8 +22,8 @@ useWebsocket(`private.project.${project.value.id}.phases`, {
     <PhaseContainer
       v-for="(phase, index) in project.phases"
       :key="phase.id"
-      :project="project"
       :phase="phase"
+      :project="project"
       :index="index"
     />
   </div>

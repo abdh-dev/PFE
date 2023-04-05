@@ -53,30 +53,49 @@ use Illuminate\Support\Carbon;
 
 class Project extends Model
 {
-    use HasFactory, BroadcastsEvents;
+  use HasFactory, BroadcastsEvents;
 
-    protected $fillable = [
-        "name",
-        "description",
-        "timeline",
-        "budget",
-        "color",
-        "resource_allocation"
+  protected $fillable = [
+    "name",
+    "description",
+    "timeline",
+    "budget",
+    "color",
+    "resource_allocation"
+  ];
+
+  public function user(): BelongsTo {
+    return $this->belongsTo(User::class);
+  }
+
+  public function phases(): HasMany {
+    return $this->hasMany(Phase::class);
+  }
+
+  public function tasks(): HasManyThrough {
+    return $this->hasManyThrough(Task::class, Phase::class);
+  }
+
+  public function broadcastOn(string $event): Channel | PrivateChannel {
+    return match ($event) {
+      'created' => new Channel('public.projects'),
+      default => new PrivateChannel("private.project.{$this->id}"),
+    };
+  }
+
+  public function broadcastWith(string $event): array {
+    return [
+      'model' => [
+        'id' => $this->id,
+        'name' => $this->name,
+        'description' => $this->description,
+        'timeline' => $this->timeline,
+        'budget' => $this->budget,
+        'color' => $this->color,
+        'resource_allocation' => $this->resource_allocation,
+        'phases' => [],
+      ],
+      'projectId' => $this->id
     ];
-
-    public function user(): BelongsTo {
-        return $this->belongsTo(User::class);
-    }
-
-    public function phases(): HasMany {
-        return $this->hasMany(Phase::class);
-    }
-
-    public function tasks(): HasManyThrough {
-        return $this->hasManyThrough(Task::class, Phase::class);
-    }
-
-    public function broadcastOn($event): Channel {
-        return new Channel("public.projects");
-    }
+  }
 }

@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import ThreeVDots from '@/Components/Icons/ThreeVDots.vue'
 import Plus from '@/Components/Icons/Plus.vue'
-import PhaseItem from '@/Sidebar/Components/Phase/PhaseItem.vue'
 
 import { Link } from '@inertiajs/vue3'
-import { computed, Ref, ref } from 'vue'
-import { useWebsocket } from '@/hooks/useWebsocket'
+import { computed, ref } from 'vue'
 
 const props = defineProps<{
   project: Project
@@ -15,32 +13,18 @@ const emit = defineEmits<{
   (event: 'showPhase', project: Project): void
 }>()
 
-const project = ref<Project>(props.project) as Ref<Project>
-const phases = ref<Phase[]>(project.value.phases ?? []) as Ref<Phase[]>
 const openProject = ref(false)
-const color = computed(() => project.value.color ?? '#7c828d')
+const color = computed(() => props.project.color ?? '#7c828d')
 
 const addPhase = (project: Project) => {
   emit('showPhase', project)
 }
 
 const height = computed(() => {
-  let length = project.value.phases?.length ?? 0
+  let length = props.project.phases?.length ?? 0
   if (!length) length = 1
 
-  return openProject.value ? length * 32 : 0
-})
-
-const phaseStore = (e: SocketEvent) => {
-  console.log('PhaseCreated', e)
-  phases.value.push(e.model)
-  // if (!project.value.phases) project.value.phases = []
-  // project.value.phases.push(e.model)
-  // console.log(project.value.phases)
-}
-
-useWebsocket(`private.project.${project.value.id}.phases`, {
-  '.PhaseCreated': phaseStore,
+  return (openProject.value ? length * 32 : 0) + 'px'
 })
 </script>
 
@@ -72,14 +56,26 @@ useWebsocket(`private.project.${project.value.id}.phases`, {
         <Plus @click="addPhase(project)" />
       </div>
     </div>
-    <div class="project-phases" :style="{ height: height + 'px' }">
+    <div class="project-phases" :style="{ height: height }">
       <div class="project-phases-wrapper">
-        <PhaseItem
+        <div
           v-for="(phase, index) in project.phases"
           :key="phase.id"
-          :phase="phase"
-          :index="index"
-        />
+          class="project-phase"
+        >
+          <div
+            class="project-phase-circle"
+            :style="{ '--circle-bg': phase.color ?? '' }"
+          />
+          <div class="project-phase-name">
+            <Link href="#">Phase {{ index + 1 + ' - ' + phase.name }}</Link>
+          </div>
+          <div class="project-phase-icons">
+            <ThreeVDots />
+          </div>
+
+          <span class="phase-task-number">{{ phase.tasks?.length ?? 0 }}</span>
+        </div>
         <div v-if="!project.phases || project.phases?.length === 0">
           No phases yet
         </div>

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
+import ProjectEverything from '@/Sidebar/Components/Project/ProjectEverything.vue'
 import AddProjectButton from '@/Sidebar/Components/Project/AddProjectButton.vue'
-import PrItemEverything from '@/Sidebar/Components/Project/PrItemEverything.vue'
 import AddPhaseModal from '@/Sidebar/Components/Phase/AddPhaseModal.vue'
 import AddProjectModal from '@/Project/Components/AddProjectModal.vue'
 import ProjectItem from '@/Sidebar/Components/Project/ProjectItem.vue'
-import { useWebsocket } from '@/hooks/useWebsocket'
 
 import { ref } from 'vue'
 
@@ -29,35 +28,6 @@ const closePhaseModal = () => {
   phaseModal.value = false
   selectedProject.value = null
 }
-
-const projectStore = (e: SocketEvent) => {
-  console.log('ProjectCreated', e)
-  projects.value.push(e.model)
-}
-
-// const projectUpdate = (e: SocketEvent) => {
-//     console.log("ProjectUpdated", e);
-//     const project: Project = e.model;
-//     const updateIndex = props.projects.findIndex(project => project.id == project.id)
-//     if (updateIndex !== -1) props.projects[updateIndex] = project;
-// }
-//
-// const projectDelete = (e: SocketEvent) => {
-//     console.log("ProjectDeleted", e);
-//     const project_: Project = e.model;
-//     const deleteIndex = props.projects.findIndex(project => project.id == project_.id)
-//     if (deleteIndex !== -1) props.projects.splice(deleteIndex, 1);
-// }
-
-useWebsocket(
-  'public.projects',
-  {
-    '.ProjectCreated': projectStore,
-    // '.ProjectUpdated': projectUpdate,
-    // '.ProjectDeleted': projectDelete,
-  },
-  false
-)
 </script>
 
 <template>
@@ -67,7 +37,7 @@ useWebsocket(
     <div class="sidebar-content">
       <div class="sidebar-project-list">
         <AddProjectButton @click.prevent="projectModal = !projectModal" />
-        <PrItemEverything />
+        <ProjectEverything />
 
         <ProjectItem
           v-for="project in projects"

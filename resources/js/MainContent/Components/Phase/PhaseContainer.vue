@@ -6,17 +6,11 @@ import Tasks from '@/MainContent/Components/Task/Tasks.vue'
 
 import { ref } from 'vue'
 
-import { useWebsocket } from '@/hooks/useWebsocket'
-
-const props = defineProps<{
+defineProps<{
   project: Project
   phase: Phase
   index: number
 }>()
-
-const project = ref<Project>(props.project)
-const phase = ref<Phase>(props.phase)
-const tasks = ref<Task[]>(phase.value.tasks ?? [])
 
 const isOpened = ref(true)
 const newTaskBtn = ref<HTMLButtonElement | null>(null)
@@ -31,12 +25,6 @@ const showNewTask = (e: PointerEvent) => {
 const groupTaskByStatus = (tasks: Task[]) => {
   return _.groupBy(tasks, (task: Task) => task.status)
 }
-
-useWebsocket(`private.phase.${phase.value.id}.tasks`, {
-  '.TaskCreated': (e: SocketEvent) => {
-    tasks.value.push(e.model)
-  },
-})
 </script>
 
 <template>
@@ -73,7 +61,7 @@ useWebsocket(`private.phase.${phase.value.id}.tasks`, {
       />
 
       <TaskList
-        v-for="(task, i) in groupTaskByStatus(tasks)"
+        v-for="(task, i) in groupTaskByStatus(phase.tasks)"
         :key="i"
         :tasks="task"
         :phase="phase"

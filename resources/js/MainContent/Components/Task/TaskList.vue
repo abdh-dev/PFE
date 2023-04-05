@@ -81,6 +81,7 @@ const showNewTask = (e: PointerEvent) => {
         v-click-outside="showNewTask"
         :phase="phase"
         :color="taskColor"
+        :status="props.tasks[0].status"
         @close="showNewTask"
       />
       <button ref="newTaskBtn" class="new-task-group" @click="showNewTask">
