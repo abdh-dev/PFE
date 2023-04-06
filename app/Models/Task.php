@@ -5,11 +5,12 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Database\Eloquent\{
-    BroadcastsEvents,
-    Builder,
-    Factories\HasFactory,
-    Model,
-    Relations\BelongsTo
+  BroadcastsEvents,
+  Builder,
+  Factories\HasFactory,
+  Model,
+  Relations\BelongsTo,
+  Relations\HasMany
 };
 use Illuminate\Support\Carbon;
 use Znck\Eloquent\Traits\BelongsToThrough;
@@ -80,6 +81,7 @@ class Task extends Model
     "completion_date",
     "custom_fields",
     "created_by",
+    "subtask_of",
   ];
 
   protected $casts = [
@@ -96,6 +98,14 @@ class Task extends Model
 
   public function phase(): BelongsTo {
     return $this->belongsTo(Phase::class);
+  }
+
+  public function parent(): BelongsTo {
+    return $this->belongsTo(Task::class, 'subtask_of');
+  }
+
+  public function children(): HasMany {
+    return $this->hasMany(Task::class, 'subtask_of');
   }
 
   public function broadcastOn(string $event): PrivateChannel {
