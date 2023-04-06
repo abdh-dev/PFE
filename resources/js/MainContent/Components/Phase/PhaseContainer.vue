@@ -4,27 +4,45 @@ import NewTask from '@/MainContent/Components/Task/NewTask.vue'
 import TaskList from '@/MainContent/Components/Task/TaskList.vue'
 import Tasks from '@/MainContent/Components/Task/Tasks.vue'
 
-import { ref } from 'vue'
+import { computed, Ref, ref } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   project: Project
   phase: Phase
   index: number
 }>()
 
 const isOpened = ref(true)
-const newTaskBtn = ref<HTMLButtonElement | null>(null)
+const newTaskBtn = ref<HTMLButtonElement | null>(null) as Ref<HTMLButtonElement>
 const isNewTaskOpen = ref(false)
 
 const showNewTask = (e: PointerEvent) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  if (e?.target == newTaskBtn.value! && isNewTaskOpen.value) return
+  if (e?.target == newTaskBtn.value && isNewTaskOpen.value) return
   isNewTaskOpen.value = !isNewTaskOpen.value
 }
 
 const groupTaskByStatus = (tasks: Task[]) => {
   return _.groupBy(tasks, (task: Task) => task.status)
 }
+
+const groupSubTaskByParent = (tasks: Task[]) => {
+  const parentTasks = tasks.filter((task) => task.subtask_of == null)
+  const subTasks = tasks.filter((task) => task.subtask_of != null)
+  const subTasksByParent = _.groupBy(subTasks, (task: Task) => task.subtask_of)
+
+  return parentTasks.map((parentTask) => {
+    return {
+      ...parentTask,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      subtasks: subTasksByParent[parentTask.id!],
+    }
+  })
+}
+
+const groupedTasks = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return groupSubTaskByParent(props.phase.tasks!)
+})
 </script>
 
 <template>
@@ -61,12 +79,17 @@ const groupTaskByStatus = (tasks: Task[]) => {
       />
 
       <TaskList
-        v-for="(task, i) in groupTaskByStatus(phase.tasks)"
+        v-for="(tasks, i) in groupTaskByStatus(groupedTasks)"
         :key="i"
-        :tasks="task"
+        :tasks="tasks"
         :phase="phase"
       >
-        <Tasks :tasks="task" :phase="phase" />
+        <Tasks
+          v-for="task in tasks"
+          :key="task.id"
+          :task="task"
+          :phase="phase"
+        />
       </TaskList>
     </div>
   </div>
