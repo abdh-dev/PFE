@@ -11,29 +11,38 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run(): void {
-        $this->call([
-            UserSeeder::class,
-        ]);
+  use WithoutModelEvents;
+  /**
+   * Seed the application's database.
+   *
+   * @return void
+   */
+  public function run(): void {
+    $this->call([
+      UserSeeder::class,
+    ]);
 
-        Project::factory()
-            ->count(1)
-            ->for((new User)->first())
-            ->create()
-            ->each(function (Project $project) {
-                $project->phases()->saveMany(
-                    Phase::factory(1)->make()
-                )->each(function (Phase $phase) {
-                    $phase->tasks()->saveMany(
-                        Task::factory(3)->make()
-                    );
-                });
-            });
-    }
+    Project::factory()
+      ->count(1)
+      ->for((new User)->first())
+      ->create()
+      ->each(function (Project $project) {
+        $project->phases()->saveMany(
+          Phase::factory(1)->make()
+        )->each(function (Phase $phase) {
+          $phase->tasks()->saveMany(
+            Task::factory(5)->make()
+          )->each(function ($parentTask) {
+            $parentTask->children()->saveMany(
+              Task::factory(2)->make(
+                [
+                  "phase_id" => $parentTask->phase_id,
+                  "subtask_of" => $parentTask->id,
+                ]
+              )
+            );
+          });
+        });
+      });
+  }
 }
