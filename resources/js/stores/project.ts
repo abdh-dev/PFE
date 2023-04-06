@@ -14,12 +14,12 @@ export const useProjectStore = defineStore('project', () => {
     return projects.value.find((project) => project.id === id)
   }
 
-  function pushPhase(idProject: number, ...phase: Phase[]) {
+  function pushPhase(idProject: number, ...phase: Phase[]): void {
     if (idProject === null || projects.value.length <= 0) return
     fetchProject(idProject)?.phases?.push(...phase)
   }
 
-  function pushTask(idProject: number, idPhase: number, ...task: Task[]) {
+  function pushTask(idProject: number, idPhase: number, ...task: Task[]): void {
     if (idProject === null || projects.value.length <= 0) return
     const phases = fetchProject(idProject)?.phases?.find(
       (phase) => phase.id === idPhase
@@ -28,7 +28,7 @@ export const useProjectStore = defineStore('project', () => {
     phases.tasks.push(...task)
   }
 
-  function push(...project: Project[]) {
+  function push(...project: Project[]): void {
     projects.value.push(...project)
   }
 
