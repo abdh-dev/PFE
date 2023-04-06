@@ -14,7 +14,8 @@ type Task = {
   created_by?: number
   updated_by?: number
   depends_on?: number
-  subtask_of?: number
+  subtask_of?: number | null
+  subtasks?: Task[]
   phase_id?: number
   created_at?: string /* Date */ | null
   updated_at?: string /* Date */ | null
