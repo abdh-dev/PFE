@@ -11,36 +11,36 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller {
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(TaskRequest $request): RedirectResponse {
-        $phase = Phase::findOrFail($request->phase_id);
-        $phase->tasks()->create($request->validated());
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(TaskRequest $request): RedirectResponse {
+    $phase = Phase::findOrFail($request->phase_id);
+    $phase->tasks()->create($request->validated());
 
-        return back();
-    }
+    return back();
+  }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task) {
-        //
-    }
+  /**
+   * Display the specified resource.
+   */
+  public function show(Task $task) {
+    //
+  }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Task $task) {
-        //
-    }
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, Task $task) {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Task $task): RedirectResponse {
-        $task->delete();
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(Task $task): RedirectResponse {
+    $task->delete();
 
-        return back();
-    }
+    return back();
+  }
 }
