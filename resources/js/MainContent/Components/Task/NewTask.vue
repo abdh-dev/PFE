@@ -6,11 +6,13 @@ type propsType = {
   phase: Phase
   color?: string
   status?: number
+  subtask?: number | null
 }
 
 const props = withDefaults(defineProps<propsType>(), {
   color: 'gray',
   status: 0,
+  subtask: null,
 })
 
 const emit = defineEmits<{
@@ -39,6 +41,7 @@ const form = useForm<Task>({
   due_date: tomorrow,
   completion_date: '',
   custom_fields: [],
+  subtask_of: props.subtask,
 })
 
 const submit = () => {
@@ -55,7 +58,11 @@ const submit = () => {
 
 <template>
   <div class="task-container">
-    <form class="new-task" @submit.prevent="submit">
+    <form
+      class="new-task"
+      :class="{ 'sub-task': subtask }"
+      @submit.prevent="submit"
+    >
       <div class="task-main-row">
         <div
           class="task-main-status"
