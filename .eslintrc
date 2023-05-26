@@ -15,25 +15,32 @@
     "parser": "@typescript-eslint/parser",
     "sourceType": "module"
   },
-  "plugins": [
-    "vue",
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["vue", "@typescript-eslint", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
-    "vue/max-attributes-per-line": ["error", {
-      "singleline": {
-        "max": 5
-      },
-      "multiline": {
-        "max": 1
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
       }
-    }],
+    ],
+    "vue/max-attributes-per-line": [
+      "error",
+      {
+        "singleline": {
+          "max": 5
+        },
+        "multiline": {
+          "max": 1
+        }
+      }
+    ],
     "vue/singleline-html-element-content-newline": "off",
-    "vue/multi-word-component-names": ["error", {
-      "ignores": ["Sidebar", "Dashboard", "Tasks"]
-    }]
+    "vue/multi-word-component-names": [
+      "error",
+      {
+        "ignores": ["Sidebar", "Dashboard", "Tasks"]
+      }
+    ]
   },
   "overrides": [
     {
