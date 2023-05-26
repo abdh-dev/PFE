@@ -11,6 +11,24 @@ const props = defineProps<{
   phase: Phase
 }>()
 
+const emit = defineEmits<{
+  (event: 'toggleTaskDetails', e: PointerEvent, task: Task, phase: Phase): void
+}>()
+
+// fix emits.toggleTaskDetails is not a function at Proxy.toggleTaskDetails (Tasks.vue?t=1685102412923:17:13)
+const toggleTaskDetails = (e: PointerEvent, _task: Task, _phase: Phase) => {
+  let target = e?.target as HTMLElement
+  let unwanteds = ['svg', 'path', 'g']
+
+  if (
+    target.classList.contains('task-option') ||
+    unwanteds.includes(target.nodeName)
+  )
+    return
+
+  emit('toggleTaskDetails', e, _task, _phase)
+}
+
 const statuses = [
   { name: 'To do', color: 'rgb(239 68 68)' },
   { name: 'In progress', color: 'rgb(234 179 8)' },
@@ -43,14 +61,15 @@ const deleteTask = (task: Task) => {
     },
   })
 }
-
-console.log(props.task)
 </script>
 
 <template>
   <div :class="elementClass">
     <div class="task" :class="{ 'sub-task': task.subtask_of }">
-      <div class="task-main-row">
+      <div
+        @click="(e: PointerEvent) => toggleTaskDetails(e, task, phase)"
+        class="task-main-row"
+      >
         <!--            <TaskCaret />-->
         <div
           class="task-main-status"
@@ -135,7 +154,9 @@ console.log(props.task)
       :key="subtask.id"
       :task="subtask"
       :phase="phase"
+      @toggleTaskDetails="toggleTaskDetails"
     />
+
     <NewTask
       v-if="isNewTaskOpen"
       v-click-outside="showNewTask"
