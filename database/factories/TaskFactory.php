@@ -25,7 +25,7 @@ class TaskFactory extends Factory
             "bonus" => $this->faker->numberBetween(0, 100),
             "penalty" => $this->faker->numberBetween(0, 100),
             "start_date" => $this->faker->date(),
-            "due_date" => $this->faker->date(),
+            "due_date" => $this->faker->dateTimeBetween('-2 weeks', '+2 weeks'),
             "completion_date" => $this->faker->date(),
             "custom_fields" => $this->faker->paragraph(3),
             "created_by" => $this->faker->numberBetween(1, 10),
