@@ -21,6 +21,7 @@ export const useProjectStore = defineStore('project', () => {
 
   function pushTask(idProject: number, idPhase: number, ...task: Task[]): void {
     if (idProject === null || projects.value.length <= 0) return
+
     const phases = fetchProject(idProject)?.phases?.find(
       (phase) => phase.id === idPhase
     ) as Phase

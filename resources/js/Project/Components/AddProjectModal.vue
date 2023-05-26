@@ -26,7 +26,7 @@ const form = useForm<Project>({
   timeline: '',
   budget: 0,
   resource_allocation: 0,
-  color: '',
+  color: 'rgb(124,130,141)',
 })
 
 const submit = () => {
@@ -132,7 +132,6 @@ const submit = () => {
               v-model="form.color"
               class="d-flex justify-center"
               position="top"
-              model-value="rgb(124,130,141)"
             />
 
             <InputError :message="form.errors.color" class="mt-2" />

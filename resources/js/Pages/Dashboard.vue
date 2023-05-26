@@ -45,7 +45,6 @@ useWebsocket(
   {
     '.ProjectCreated': (e: SocketEvent) => {
       useProject.push(e.model)
-      console.log(projects)
     },
   },
   false
