@@ -24,7 +24,7 @@ const closeModal = () => {
 const form = useForm<Phase>({
   name: '',
   description: '',
-  color: '',
+  color: 'rgb(0, 0, 0)',
 })
 
 const submit = () => {
@@ -88,7 +88,6 @@ const submit = () => {
               v-model="form.color"
               class="d-flex justify-center"
               position="top"
-              model-value="rgb(0, 0, 0)"
             />
 
             <InputError :message="form.errors.color" class="mt-2" />
