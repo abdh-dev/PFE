@@ -1017,11 +1017,22 @@ div.stroke-border-icon.icon {
   gap: 10px;
 }
 
+.task-details-attachments-content {
+  margin-top: 10px;
+}
+
+.task-details-attachments-content form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .task-details-attachments-add {
   user-select: none;
   transition: all 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0s;
   border-color: #7b68ee;
-  margin: 0 0 0 10px;
+  margin-left: auto;
   border-radius: 3px;
   height: 25px;
   padding: 0 7px 0 8px;
