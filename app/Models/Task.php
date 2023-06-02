@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Database\Eloquent\{
-  BroadcastsEvents,
+use Illuminate\Database\Eloquent\{BroadcastsEvents,
   Builder,
   Factories\HasFactory,
   Model,
   Relations\BelongsTo,
-  Relations\HasMany
-};
+  Relations\HasMany,
+  Relations\MorphToMany};
 use Illuminate\Support\Carbon;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -106,6 +105,10 @@ class Task extends Model
 
   public function children(): HasMany {
     return $this->hasMany(Task::class, 'subtask_of');
+  }
+
+  public function attachments(): MorphToMany {
+    return $this->morphToMany(Attachment::class, 'attachable');
   }
 
   public function broadcastOn(string $event): PrivateChannel {

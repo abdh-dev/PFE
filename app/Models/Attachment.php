@@ -6,6 +6,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -35,5 +36,17 @@ use Illuminate\Support\Carbon;
 
 class Attachment extends Model
 {
-    use HasFactory;
+  use HasFactory;
+
+  protected $fillable = [
+    'path',
+    'name',
+    'size',
+    'type',
+    'extension'
+  ];
+
+  public function attachable(): MorphTo {
+    return $this->morphTo();
+  }
 }

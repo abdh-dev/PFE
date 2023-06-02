@@ -6,30 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up(): void {
-        Schema::create('attachments', function (Blueprint $table) {
-            $table->id();
-            $table->string("src");
-            $table->string("name");
-            $table->string("size");
-            $table->string("type");
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up(): void {
+    Schema::create('attachments', function (Blueprint $table) {
+      $table->id();
+      $table->string("path");
+      $table->string("name");
+      $table->string("size");
+      $table->string("type");
+      $table->string('extension');
 
-            $table->foreignId("chat_id")->nullable()->constrained();
-            $table->timestamps();
-        });
-    }
+      $table->morphs("attachable");
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down(): void {
-        Schema::dropIfExists('attachments');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down(): void {
+    Schema::dropIfExists('attachments');
+  }
 };
