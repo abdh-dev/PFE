@@ -1,7 +1,11 @@
+import { FilePondType } from 'filepond'
 import ziggyRoute from 'ziggy-js'
 import Echo from 'laravel-echo'
+import { AxiosInstance } from 'axios'
 
 declare global {
+  type FilePond = FilePondType
+
   const route: typeof ziggyRoute
   interface Window {
     Echo: Echo
@@ -9,6 +13,7 @@ declare global {
   const Echo: Echo
   const _: typeof import('lodash')
   const Ziggy: typeof import('ziggy-js')
+  const axios: AxiosInstance
 }
 //
 // declare module 'ziggy-js' {
@@ -21,15 +26,3 @@ declare global {
 //     defaultParameters: Record<string, string>
 //   }
 // }
-
-declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $route: typeof ziggyRoute
-  }
-}
-
-declare module 'vue/types/vue' {
-  interface Vue {
-    $route: typeof ziggyRoute
-  }
-}
