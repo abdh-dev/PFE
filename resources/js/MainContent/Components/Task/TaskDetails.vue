@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import vueFilePond from 'vue-filepond'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import { Status } from 'filepond'
 
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'
@@ -28,14 +30,6 @@ const statuses = [
   { name: 'Done', color: 'rgb(34 197 94)' },
 ]
 
-const taskColor = computed(() => {
-  return statuses[props.task.status].color
-})
-
-const taskStatus = computed(() => {
-  return statuses[props.task.status].name
-})
-
 const createDate = new Date(props.task.created_at!).toLocaleDateString(
   'en-US',
   {
@@ -54,6 +48,14 @@ const shortForm: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 }
 
+const taskColor = computed(() => {
+  return statuses[props.task.status].color
+})
+
+const taskStatus = computed(() => {
+  return statuses[props.task.status].name
+})
+
 const getShortForm = (date: string | Date) => {
   return new Date(date).toLocaleDateString('en-US', shortForm)
 }
@@ -69,8 +71,33 @@ const dueDateColor = computed(() => {
   return '#777'
 })
 
-const filePond = vueFilePond(FilePondPluginImagePreview)
-const pond = ref<HTMLDivElement | null>(null)
+const FilePond = vueFilePond(
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType
+)
+const pond = ref<FilePond | null>(null)
+const pondReady = ref<boolean>(false)
+const pondInstance = ref<FilePond | null>(null)
+const updateInstance = () => {
+  pondInstance.value = pond.value?._pond as FilePond
+  pondReady.value = pondInstance.value?.status === Status.READY
+}
+
+const attachmentSubmit = () => {
+  if (!pondReady.value) return
+
+  const formData = new FormData()
+  formData.append('task_id', props.task.id?.toString() as string)
+
+  pond.value?.getFiles().forEach((file) => {
+    formData.append('tmp_files[]', file.serverId)
+  })
+
+  axios.post(route('attachments.store'), formData).then((res) => {
+    console.log(res)
+  })
+  pond.value?.removeFiles()
+}
 </script>
 
 <template>
@@ -106,7 +133,7 @@ const pond = ref<HTMLDivElement | null>(null)
             <div class="task-status-button-divider"></div>
             <div class="task-status-button button-arrow"></div>
           </div>
-          <div v-if="taskStatus != 'Done'" class="mark-task-as-complete">
+          <div v-if="taskStatus !== 'Done'" class="mark-task-as-complete">
             <svg viewBox="0 0 12 10">
               <path fill="none" d="m1 5.37 3.01 2.96L11 1"></path>
             </svg>
@@ -217,16 +244,47 @@ const pond = ref<HTMLDivElement | null>(null)
           <div class="task-details-attachments">
             <div class="task-details-attachments-title-header">
               <div class="task-details-attachments-title">Attachments</div>
-              <div class="task-details-attachments-add">Add</div>
             </div>
             <div class="task-details-attachments-content">
-              <file-pond
-                name="attachment"
-                ref="pond"
-                label-idle="Drop files here or <span class='filepond--label-action'>Browse</span>"
-                :allow-remove="true"
-                server="/uploads/process"
-              />
+              <form
+                enctype="multipart/form-data"
+                @submit.prevent="attachmentSubmit"
+              >
+                <file-pond
+                  ref="pond"
+                  name="attachment"
+                  label-idle="Drop files here or <span class='filepond--label-action'>Browse</span>"
+                  allow-remove="true"
+                  allow-multiple="true"
+                  :server="{
+                    url: '',
+                    process: '/uploads/process',
+                    headers: {
+                      'X-CSRF-TOKEN': $page.props.csrf_token,
+                    },
+                    revert: '/uploads/revert',
+                  }"
+                  @init="updateInstance"
+                  @addfile="updateInstance"
+                  @removefile="updateInstance"
+                  @preparefile="updateInstance"
+                  @processfile="updateInstance"
+                  @processfileabort="updateInstance"
+                  @processfilerevert="updateInstance"
+                  @processfileundo="updateInstance"
+                  @processingmultiple="updateInstance"
+                  @reorderfiles="updateInstance"
+                  @sort="updateInstance"
+                  @error="updateInstance"
+                  @warning="updateInstance"
+                />
+                <button
+                  class="task-details-attachments-add"
+                  :disabled="!pondReady"
+                >
+                  Upload
+                </button>
+              </form>
 
               <table>
                 <tr class="task-details-content-header">

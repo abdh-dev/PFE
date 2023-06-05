@@ -11,8 +11,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
+use Spatie\MediaLibrary\{
+  HasMedia,
+  InteractsWithMedia,
+  MediaCollections\Exceptions\FileDoesNotExist,
+  MediaCollections\Exceptions\FileIsTooBig,
+};
 
 /**
  * App\Models\Phase
@@ -39,15 +45,25 @@ use Illuminate\Support\Carbon;
  * @mixin Eloquent
  */
 
-class Phase extends Model
+class Phase extends Model implements HasMedia
 {
-  use HasFactory, BroadcastsEvents;
+  use HasFactory, BroadcastsEvents, InteractsWithMedia;
 
   protected $fillable = [
     "name",
     "description",
     "color"
   ];
+
+  /**
+   * @throws FileDoesNotExist
+   * @throws FileIsTooBig
+   */
+  public function addMediaToCollection(string $path) {
+    return
+      $this->addMedia(storage_path($path))
+        ->toMediaCollection('phase');
+  }
 
   public function project(): BelongsTo {
     return $this->belongsTo(Project::class);
@@ -57,8 +73,8 @@ class Phase extends Model
     return $this->hasMany(Task::class);
   }
 
-  public function attachments(): MorphToMany {
-    return $this->morphToMany(Attachment::class, 'attachable');
+  public function attachments(): MorphMany {
+    return $this->morphMany(Attachment::class, 'attachable');
   }
 
   public function broadcastOn($event): PrivateChannel {

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AttachmentController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PhaseController;
 use App\Http\Controllers\Admin\ProjectController;
@@ -61,7 +61,7 @@ Route::resource('tasks', TaskController::class)
   ->only(['store', 'update', 'destroy'])
   ->middleware('auth');
 
-Route::resource('task/attachments', AttachmentController::class)
+Route::resource('task/attachments', MediaController::class)
   ->only(['store', 'update', 'destroy'])
   ->middleware('auth');
 

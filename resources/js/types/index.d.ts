@@ -1,6 +1,10 @@
 import ziggyRoute from 'ziggy-js'
 
 declare module 'filepond' {
+  interface FilePond {
+    _pond: FilePond
+  }
+
   export type FilePondType = FilePond
 }
 

@@ -4,16 +4,24 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Database\Eloquent\{BroadcastsEvents,
+use Illuminate\Support\Carbon;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Znck\Eloquent\Traits\BelongsToThrough;
+use Illuminate\Database\Eloquent\{
+  BroadcastsEvents,
   Builder,
   Factories\HasFactory,
   Model,
   Relations\BelongsTo,
   Relations\HasMany,
-  Relations\MorphToMany};
-use Illuminate\Support\Carbon;
-use Znck\Eloquent\Traits\BelongsToThrough;
-
+  Relations\MorphMany,
+};
+use Spatie\MediaLibrary\{
+  HasMedia,
+  InteractsWithMedia,
+  MediaCollections\Exceptions\FileDoesNotExist,
+  MediaCollections\Exceptions\FileIsTooBig,
+};
 /**
  * App\Models\Task
  *
@@ -63,9 +71,9 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @mixin Eloquent
  */
 
-class Task extends Model
+class Task extends Model implements HasMedia
 {
-  use HasFactory, BroadcastsEvents, BelongsToThrough;
+  use HasFactory, BroadcastsEvents, BelongsToThrough, InteractsWithMedia;
 
   protected $fillable = [
     "title",
@@ -87,6 +95,16 @@ class Task extends Model
     "custom_fields" => "array",
   ];
 
+  /**
+   * @throws FileIsTooBig
+   * @throws FileDoesNotExist
+   */
+  public function addMediaToCollection(string $path) {
+    return
+      $this->addMedia(storage_path($path))
+        ->toMediaCollection('task');
+  }
+
   public function project(): \Znck\Eloquent\Relations\BelongsToThrough {
     return $this->belongsToThrough(Project::class, Phase::class);
   }
@@ -107,8 +125,8 @@ class Task extends Model
     return $this->hasMany(Task::class, 'subtask_of');
   }
 
-  public function attachments(): MorphToMany {
-    return $this->morphToMany(Attachment::class, 'attachable');
+  public function attachments(): MorphMany {
+    return $this->morphMany(Attachment::class, 'attachable');
   }
 
   public function broadcastOn(string $event): PrivateChannel {
