@@ -28,7 +28,7 @@
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^7.1.0",
         "phpunit/phpunit": "^10.0.14",
-        "scrumble-nl/laravel-model-ts-type": "^10.0.0",
+        "scrumble-nl/laravel-model-ts-type": "^10.0",
         "spatie/laravel-ignition": "^2.0.0"
     },
     "autoload": {
