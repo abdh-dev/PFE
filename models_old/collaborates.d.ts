@@ -1,9 +1,7 @@
-type TaskHistory = {
+type Collaborates = {
   id: number
-  field_name: string
-  old_value: string | null
-  new_value: string
   task_id: number
+  user_id: number
   created_at: string /* Date */ | null
   updated_at: string /* Date */ | null
 }

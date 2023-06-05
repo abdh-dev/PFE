@@ -5,7 +5,6 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Support\Carbon;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Znck\Eloquent\Traits\BelongsToThrough;
 use Illuminate\Database\Eloquent\{
   BroadcastsEvents,
@@ -125,8 +124,8 @@ class Task extends Model implements HasMedia
     return $this->hasMany(Task::class, 'subtask_of');
   }
 
-  public function attachments(): MorphMany {
-    return $this->morphMany(Attachment::class, 'attachable');
+  public function media(): MorphMany {
+    return $this->morphMany(Media::class, 'model');
   }
 
   public function broadcastOn(string $event): PrivateChannel {

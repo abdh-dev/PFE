@@ -1,4 +1,4 @@
-type ModelNotification = {
+type Notification = {
   id: number
   notified_at: string /* Date */
   action_type: string

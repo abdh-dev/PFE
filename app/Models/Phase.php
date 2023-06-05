@@ -73,8 +73,8 @@ class Phase extends Model implements HasMedia
     return $this->hasMany(Task::class);
   }
 
-  public function attachments(): MorphMany {
-    return $this->morphMany(Attachment::class, 'attachable');
+  public function media(): MorphMany {
+    return $this->morphMany(Media::class, 'model');
   }
 
   public function broadcastOn($event): PrivateChannel {

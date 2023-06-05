@@ -1,5 +1,5 @@
 type User = {
-  id: number
+  id?: number
   username: string
   first_name: string
   last_name: string
@@ -9,5 +9,4 @@ type User = {
   preference: string
   created_at: string /* Date */ | null
   updated_at: string /* Date */ | null
-  projects?: Project[] | null
 }

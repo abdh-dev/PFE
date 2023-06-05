@@ -1,8 +1,6 @@
-type TaskHistory = {
+type Note = {
   id: number
-  field_name: string
-  old_value: string | null
-  new_value: string
+  text: string
   task_id: number
   created_at: string /* Date */ | null
   updated_at: string /* Date */ | null
