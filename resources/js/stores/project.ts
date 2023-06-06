@@ -1,39 +1,89 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { Ref, ref } from 'vue'
+import { ref } from 'vue'
 
 export const useProjectStore = defineStore('project', () => {
-  const projects = ref([]) as Ref<Project[]>
+  const projects = ref<Project[]>([])
   const project = ref<Project | null>(null)
 
   function loadALl(data: Project[]) {
     projects.value = data
   }
 
-  function fetchProject(id: number | null): Project | undefined {
-    if (id === null || projects.value.length <= 0) return {} as Project
-    return projects.value.find((project) => project.id === id)
+  function fetchProject(id: number | null): Project {
+    if (!isValidProject(id)) return {} as Project
+    return (
+      projects.value.find((project) => project.id === id) ?? ({} as Project)
+    )
   }
 
-  function pushPhase(idProject: number, ...phase: Phase[]): void {
-    if (idProject === null || projects.value.length <= 0) return
-    fetchProject(idProject)?.phases?.push(...phase)
+  function pushPhase(idProject: number, ...phases: Phase[]): void {
+    const project = fetchProject(idProject)
+
+    project.phases = pushToArray(project.phases, ...phases)
   }
 
-  function pushTask(idProject: number, idPhase: number, ...task: Task[]): void {
-    if (idProject === null || projects.value.length <= 0) return
+  function pushTask(
+    idProject: number,
+    idPhase: number,
+    ...tasks: Task[]
+  ): void {
+    const phase = fetchPhase(idProject, idPhase)
 
-    const phases = fetchProject(idProject)?.phases?.find(
-      (phase) => phase.id === idPhase
-    ) as Phase
-    if (!phases.tasks) phases.tasks = []
-    phases.tasks.push(...task)
+    phase.tasks = pushToArray(phase.tasks, ...tasks)
+  }
+
+  function pushMedia(
+    idProject: number,
+    idPhase: number,
+    idTask?: number,
+    ...media: Media[]
+  ): void {
+    const item = idTask
+      ? fetchTask(idProject, idPhase, idTask)
+      : fetchPhase(idProject, idPhase)
+    item.media = pushToArray(item.media, ...media)
   }
 
   function push(...project: Project[]): void {
     projects.value.push(...project)
   }
 
-  return { projects, project, push, loadALl, fetchProject, pushPhase, pushTask }
+  // HELPERS
+
+  function isValidProject(id: number | null): boolean {
+    return id === null || projects.value.length <= 0
+  }
+
+  function fetchPhase(idProject: number, idPhase: number): Phase {
+    const project = fetchProject(idProject)
+    project.phases = project.phases ?? []
+
+    return project.phases.find((phase) => phase.id === idPhase) ?? ({} as Phase)
+  }
+
+  function fetchTask(idProject: number, idPhase: number, idTask: number) {
+    const phase = fetchPhase(idProject, idPhase)
+    phase.tasks = phase.tasks ?? []
+
+    return phase.tasks.find((task) => task.id === idTask) ?? ({} as Task)
+  }
+
+  function pushToArray<T>(array: T[] | null | undefined, ...items: T[]): T[] {
+    const newArray = array ?? []
+    newArray.push(...items)
+    return newArray
+  }
+
+  return {
+    projects,
+    project,
+    push,
+    loadALl,
+    fetchProject,
+    pushPhase,
+    pushTask,
+    pushMedia,
+  }
 })
 
 if (import.meta.hot) {
